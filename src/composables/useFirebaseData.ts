@@ -11,6 +11,7 @@ export interface FirebaseConversation {
   key_phrases: string[]
   summary: string
   timestamp?: number
+  firebaseKey?: string
 }
 
 export function useFirebaseData() {

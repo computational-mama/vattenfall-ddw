@@ -37,6 +37,15 @@
           </p>
         </div>
 
+        <!-- QR Code -->
+        <div v-if="shareableUrl" class="mb-12">
+          <QRCodeDisplay
+            :url="shareableUrl"
+            :size="256"
+            label="Scan to save and share your idea"
+          />
+        </div>
+
         <!-- Action Buttons -->
         <div class="flex flex-col sm:flex-row gap-4 mb-16">
           <PrimaryButton
@@ -67,6 +76,7 @@ import VattenfallLogo from '../components/VattenfallLogo.vue'
 import ImageCard from '../components/ImageCard.vue'
 import PrimaryButton from '../components/PrimaryButton.vue'
 import ImageGallery from '../components/ImageGallery.vue'
+import QRCodeDisplay from '../components/QRCodeDisplay.vue'
 import type { IdeaData } from '../components/ImageGallery.vue'
 import { useFirebaseData } from '../composables/useFirebaseData'
 
@@ -82,6 +92,12 @@ const totalIdeas = ref(0)
 const latestImage = computed(() => latestConversation.value?.image_url || '/src/assets/images/cad-image-frame.png')
 const latestTitle = computed(() => latestConversation.value?.key_phrases?.[0] || 'Supply Chain')
 const latestDescription = computed(() => latestConversation.value?.summary || 'Understand how chain of suppliers leading to this part')
+
+// Computed property for QR code URL
+const shareableUrl = computed(() => {
+  const firebaseKey = latestConversation.value?.firebaseKey
+  return firebaseKey ? `https://vattenfall-ddw.vercel.app/idea/${firebaseKey}` : ''
+})
 
 // Computed properties for ImageGallery
 const galleryIdeas = computed((): IdeaData[] => {
