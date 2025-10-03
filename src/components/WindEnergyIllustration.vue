@@ -13,7 +13,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import welcomeImage1 from '@/assets/images/welcomeImage1.svg'
+import welcomeImage2 from '@/assets/images/welcomeImage2.svg'
+import welcomeImage3 from '@/assets/images/welcomeImage3.svg'
 
 interface Props {
   currentIndex?: number
@@ -25,11 +27,7 @@ const props = withDefaults(defineProps<Props>(), {
   totalImages: 3
 })
 
-const welcomeImages = computed(() => {
-  return Array.from({ length: props.totalImages }, (_, i) =>
-    `/src/assets/images/welcomeImage${i + 1}.svg`
-  )
-})
+const welcomeImages = [welcomeImage1, welcomeImage2, welcomeImage3]
 </script>
 
 <style scoped>

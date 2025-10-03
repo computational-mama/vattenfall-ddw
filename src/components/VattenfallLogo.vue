@@ -24,9 +24,9 @@ const props = withDefaults(defineProps<Props>(), {
 
 const logoSrc = computed(() => {
   if (props.variant === 'linear-grey') {
-    return '/src/assets/images/f4c0d3dd857761e726112ac29791872e197708e3.png'
+    return '/vattenfall-logo-linear-grey.png'
   }
-  return '/src/assets/logos/vattenfall-logo.png'
+  return '/vattenfall-logo.png'
 })
 
 const sizeClass = computed(() => {
