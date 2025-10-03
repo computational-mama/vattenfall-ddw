@@ -26,7 +26,7 @@
         <button
           v-for="(btn, index) in parsedButtons"
           :key="index"
-          @click="$emit('button-click', btn.text)"
+          @click="handleButtonClick(btn.text)"
           class="w-full flex items-center justify-between px-4 py-8 bg-white border-2 border-[#396fb0] text-[#396fb0] rounded-xl hover:bg-[#396fb0] hover:text-white transition-all font-vattenfall font-medium text-left"
         >
           <span>{{ btn.text }}</span>
@@ -46,6 +46,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
+import { useRouter } from "vue-router";
 import type { ChatMessage as ChatMessageType } from "../composables/useGooeyAPI";
 
 interface Props {
@@ -56,11 +57,24 @@ interface ParsedButton {
   text: string;
 }
 
-defineEmits<{
+const emit = defineEmits<{
   "button-click": [text: string];
 }>();
 
 const props = defineProps<Props>();
+const router = useRouter();
+
+// Handle button click with special case for "done" button
+const handleButtonClick = (buttonText: string) => {
+  // Check if this is the "Thanks I'm done" button
+  if (buttonText.includes("Thanks") && buttonText.includes("done")) {
+    // Navigate to final view
+    router.push("/final");
+  } else {
+    // Emit normal button click event
+    emit("button-click", buttonText);
+  }
+};
 
 // Parse HTML buttons from message content
 const parsedButtons = computed((): ParsedButton[] => {

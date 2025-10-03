@@ -2,11 +2,7 @@
   <div class="min-h-screen bg-white flex flex-col relative overflow-hidden">
     <!-- Background SVG -->
     <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
-      <img
-        src="../assets/images/bg-closepage.svg"
-        alt=""
-        class="w-full h-full object-contain"
-      />
+      <img src="../assets/images/bg-closepage.svg" alt="" class="w-full h-full object-contain" />
     </div>
 
     <!-- Content Container -->
@@ -19,7 +15,7 @@
       <!-- Main Content -->
       <div class="flex-1 flex flex-col items-center justify-start px-8 pt-8">
         <!-- Image Card -->
-        <div class="mb-8">
+        <div v-if="latestConversation" class="mb-8">
           <ImageCard
             :image-src="latestImage"
             :title="latestTitle"
@@ -39,25 +35,13 @@
 
         <!-- QR Code -->
         <div v-if="shareableUrl" class="mb-12">
-          <QRCodeDisplay
-            :url="shareableUrl"
-            :size="256"
-            label="Scan to save and share your idea"
-          />
+          <QRCodeDisplay :url="shareableUrl" :size="256" label="Scan to save and share your idea" />
         </div>
 
         <!-- Action Buttons -->
         <div class="flex flex-col sm:flex-row gap-4 mb-16">
-          <PrimaryButton
-            label="End session"
-            variant="secondary"
-            @click="endSession"
-          />
-          <PrimaryButton
-            label="Submit another idea"
-            variant="primary"
-            @click="submitAnother"
-          />
+          <PrimaryButton label="End session" variant="secondary" @click="endSession" />
+          <PrimaryButton label="Submit another idea" variant="primary" @click="submitAnother" />
         </div>
 
         <!-- Image Gallery Section -->
@@ -70,64 +54,80 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
-import { useRouter } from 'vue-router'
-import VattenfallLogo from '../components/VattenfallLogo.vue'
-import ImageCard from '../components/ImageCard.vue'
-import PrimaryButton from '../components/PrimaryButton.vue'
-import ImageGallery from '../components/ImageGallery.vue'
-import QRCodeDisplay from '../components/QRCodeDisplay.vue'
-import type { IdeaData } from '../components/ImageGallery.vue'
-import { useFirebaseData } from '../composables/useFirebaseData'
+import { ref, onMounted, computed } from "vue";
+import { useRouter } from "vue-router";
+import VattenfallLogo from "../components/VattenfallLogo.vue";
+import ImageCard from "../components/ImageCard.vue";
+import PrimaryButton from "../components/PrimaryButton.vue";
+import ImageGallery from "../components/ImageGallery.vue";
+import QRCodeDisplay from "../components/QRCodeDisplay.vue";
+import type { IdeaData } from "../components/ImageGallery.vue";
+import { useFirebaseData } from "../composables/useFirebaseData";
 
-const router = useRouter()
-const { getLatestConversation, getPreviousConversations, fetchAllConversations } = useFirebaseData()
+const router = useRouter();
+const { getLatestConversation, getPreviousConversations, fetchAllConversations } =
+  useFirebaseData();
 
 // Data refs
-const latestConversation = ref<any>(null)
-const previousConversations = ref<any[]>([])
-const totalIdeas = ref(0)
+const latestConversation = ref<any>(null);
+const previousConversations = ref<any[]>([]);
+const totalIdeas = ref(0);
+
+// Load data on mount - do this ONCE efficiently
+onMounted(async () => {
+  const allConversations = await fetchAllConversations();
+
+  if (allConversations.length > 0) {
+    latestConversation.value = allConversations[0];
+    previousConversations.value = allConversations.slice(1, 7);
+    totalIdeas.value = allConversations.length;
+  }
+});
 
 // Computed properties for ImageCard
-const latestImage = computed(() => latestConversation.value?.image_url || '/src/assets/images/cad-image-frame.png')
-const latestTitle = computed(() => latestConversation.value?.key_phrases?.[0] || 'Supply Chain')
-const latestDescription = computed(() => latestConversation.value?.summary || 'Understand how chain of suppliers leading to this part')
+const latestImage = computed(() => {
+  if (!latestConversation.value) return "";
+  return latestConversation.value.image_url || "";
+});
+
+const latestTitle = computed(() => {
+  if (!latestConversation.value) return "";
+  return latestConversation.value.key_phrases?.[0] || "";
+});
+
+const latestDescription = computed(() => {
+  if (!latestConversation.value) return "";
+  return latestConversation.value.summary || "";
+});
 
 // Computed property for QR code URL
 const shareableUrl = computed(() => {
-  const firebaseKey = latestConversation.value?.firebaseKey
-  return firebaseKey ? `https://vattenfall-ddw.vercel.app/idea/${firebaseKey}` : ''
-})
+  if (!latestConversation.value?.firebaseKey) return "";
+  return `https://vattenfall-ddw.vercel.app/idea/${latestConversation.value.firebaseKey}`;
+});
 
 // Computed properties for ImageGallery
 const galleryIdeas = computed((): IdeaData[] => {
+  if (!previousConversations.value.length) return [];
+
   return previousConversations.value.map((conv) => ({
-    partName: conv.key_phrases?.[0] || 'Part',
+    partName: conv.key_phrases?.[0] || "",
     ideaCount: conv.key_phrases?.length || 0,
-    imageUrl: conv.image_url || '/src/assets/images/cad-image-frame.png',
-    ideaTitle: conv.summary || 'Idea',
-    partIcon: '/src/assets/images/icon-connection.png'
-  }))
-})
-
-// Load data on mount
-onMounted(async () => {
-  const allConversations = await fetchAllConversations()
-  totalIdeas.value = allConversations.length
-
-  latestConversation.value = await getLatestConversation()
-  previousConversations.value = await getPreviousConversations(6)
-})
+    imageUrl: conv.image_url || "",
+    ideaTitle: conv.summary || "",
+    partIcon: "",
+  }));
+});
 
 const endSession = () => {
   // Navigate to welcome page
-  router.push('/')
-}
+  router.push("/");
+};
 
 const submitAnother = () => {
   // Navigate to parts selection
-  router.push('/choose')
-}
+  router.push("/choose");
+};
 </script>
 
 <style scoped>
