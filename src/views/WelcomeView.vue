@@ -44,9 +44,18 @@ import HeroText from "../components/HeroText.vue";
 import WindEnergyIllustration from "../components/WindEnergyIllustration.vue";
 import ProgressIndicator from "../components/ProgressIndicator.vue";
 import IdeaCounter from "../components/IdeaCounter.vue";
+import { useFirebaseData } from "../composables/useFirebaseData";
 
-// Placeholder for Firebase connection - will be replaced later
-const ideaCount = ref(64);
+const { fetchAllConversations } = useFirebaseData();
+
+// Fetch idea count from Firebase
+const ideaCount = ref(0);
+
+onMounted(async () => {
+  const allConversations = await fetchAllConversations();
+  ideaCount.value = allConversations.length;
+  startCarousel();
+});
 
 // Carousel content for each slide
 const carouselContent = [
@@ -90,10 +99,6 @@ const stopCarousel = () => {
     carouselInterval.value = null;
   }
 };
-
-onMounted(() => {
-  startCarousel();
-});
 
 onUnmounted(() => {
   stopCarousel();

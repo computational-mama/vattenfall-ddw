@@ -18,6 +18,15 @@
 
       <!-- Main Content -->
       <div class="flex-1 flex flex-col items-center justify-start px-8 pt-8">
+        <!-- Image Card -->
+        <div class="mb-8">
+          <ImageCard
+            :image-src="latestImage"
+            :title="latestTitle"
+            :description="latestDescription"
+          />
+        </div>
+
         <!-- Thank You Message -->
         <div class="text-center mb-12 max-w-3xl">
           <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6 font-vattenfall">
@@ -30,23 +39,21 @@
 
         <!-- Action Buttons -->
         <div class="flex flex-col sm:flex-row gap-4 mb-16">
-          <button
+          <PrimaryButton
+            label="End session"
+            variant="secondary"
             @click="endSession"
-            class="px-12 py-4 bg-gray-200 text-gray-900 rounded-full font-semibold text-lg hover:bg-gray-300 transition-colors font-vattenfall"
-          >
-            End session
-          </button>
-          <button
+          />
+          <PrimaryButton
+            label="Submit another idea"
+            variant="primary"
             @click="submitAnother"
-            class="px-12 py-4 bg-yellow-400 text-gray-900 rounded-full font-semibold text-lg hover:bg-yellow-500 transition-colors font-vattenfall shadow-md"
-          >
-            Submit another idea
-          </button>
+          />
         </div>
 
         <!-- Image Gallery Section -->
         <div class="w-full max-w-7xl pb-16">
-          <ImageGallery :ideas="mockIdeas" :total-ideas="totalIdeas" />
+          <ImageGallery :ideas="galleryIdeas" :total-ideas="totalIdeas" />
         </div>
       </div>
     </div>
@@ -54,62 +61,47 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import VattenfallLogo from '../components/VattenfallLogo.vue'
+import ImageCard from '../components/ImageCard.vue'
+import PrimaryButton from '../components/PrimaryButton.vue'
 import ImageGallery from '../components/ImageGallery.vue'
 import type { IdeaData } from '../components/ImageGallery.vue'
+import { useFirebaseData } from '../composables/useFirebaseData'
 
 const router = useRouter()
+const { getLatestConversation, getPreviousConversations, fetchAllConversations } = useFirebaseData()
 
-// Placeholder - will be fetched from Firebase later
-const totalIdeas = ref(64)
+// Data refs
+const latestConversation = ref<any>(null)
+const previousConversations = ref<any[]>([])
+const totalIdeas = ref(0)
 
-// Mock data for gallery - will be replaced with Firebase RTDB data
-const mockIdeas = ref<IdeaData[]>([
-  {
-    partName: 'Torque arm shaft',
-    ideaCount: 12,
-    imageUrl: '/src/assets/images/cad-image-frame.png',
-    ideaTitle: 'A Canal Water Harvester',
+// Computed properties for ImageCard
+const latestImage = computed(() => latestConversation.value?.image_url || '/src/assets/images/cad-image-frame.png')
+const latestTitle = computed(() => latestConversation.value?.key_phrases?.[0] || 'Supply Chain')
+const latestDescription = computed(() => latestConversation.value?.summary || 'Understand how chain of suppliers leading to this part')
+
+// Computed properties for ImageGallery
+const galleryIdeas = computed((): IdeaData[] => {
+  return previousConversations.value.map((conv) => ({
+    partName: conv.key_phrases?.[0] || 'Part',
+    ideaCount: conv.key_phrases?.length || 0,
+    imageUrl: conv.image_url || '/src/assets/images/cad-image-frame.png',
+    ideaTitle: conv.summary || 'Idea',
     partIcon: '/src/assets/images/icon-connection.png'
-  },
-  {
-    partName: 'Torque arm shaft',
-    ideaCount: 8,
-    imageUrl: '/src/assets/images/cad-image-frame2.png',
-    ideaTitle: 'Sustainable Energy Hub',
-    partIcon: '/src/assets/images/icon-connection.png'
-  },
-  {
-    partName: 'Blade Assembly',
-    ideaCount: 23,
-    imageUrl: '/src/assets/images/cad-image-frame.png',
-    ideaTitle: 'Modern Art Installation',
-    partIcon: '/src/assets/images/icon-plant.png'
-  },
-  {
-    partName: 'Generator Housing',
-    ideaCount: 15,
-    imageUrl: '/src/assets/images/cad-image-frame2.png',
-    ideaTitle: 'Community Greenhouse',
-    partIcon: '/src/assets/images/icon-connection.png'
-  },
-  {
-    partName: 'Nacelle',
-    ideaCount: 19,
-    imageUrl: '/src/assets/images/cad-image-frame.png',
-    ideaTitle: 'Observation Deck',
-    partIcon: '/src/assets/images/icon-plant.png'
-  },
-  {
-    partName: 'Tower Section',
-    ideaCount: 11,
-    imageUrl: '/src/assets/images/cad-image-frame2.png',
-    ideaTitle: 'Vertical Garden System',
-    partIcon: '/src/assets/images/icon-connection.png'
-  }
-])
+  }))
+})
+
+// Load data on mount
+onMounted(async () => {
+  const allConversations = await fetchAllConversations()
+  totalIdeas.value = allConversations.length
+
+  latestConversation.value = await getLatestConversation()
+  previousConversations.value = await getPreviousConversations(6)
+})
 
 const endSession = () => {
   // Navigate to welcome page

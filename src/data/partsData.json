@@ -1,0 +1,66 @@
+[
+  {
+    "id": "yaw-bearing",
+    "name": "Yaw Bearing",
+    "description": "This is a massive slewing ring bearing that connects the turbine's main housing (nacelle) to the tower. Its job is to allow the entire housing to smoothly rotate, or \"yaw,\" ensuring the blades always face the wind to capture the most energy.",
+    "iconSrc": "/src/assets/images/icon-connection.png",
+    "priority": 1,
+    "tags": ["Mechanical", "Slewing Ring", "Rotation"]
+  },
+  {
+    "id": "yaw-control-gear-motor",
+    "name": "Yaw Control Gear Motor",
+    "description": "A powerful electric motor combined with a heavy-duty gearbox. It engages with the Yaw Bearing to provide the strong, controlled force needed to turn the turbine's entire head into the wind.",
+    "iconSrc": "/src/assets/images/icon-plant.png",
+    "priority": 2,
+    "tags": ["Mechanical", "Motor", "Gearbox"]
+  },
+  {
+    "id": "yaw-controller",
+    "name": "Yaw Controller",
+    "description": "The electronic \"brain\" that controls the yaw system. It takes information from wind sensors and tells the yaw motor when and how much to turn to keep the turbine facing the wind.",
+    "iconSrc": "/src/assets/images/icon-connection.png",
+    "priority": 3,
+    "tags": ["Control", "Monitoring", "Electronic"]
+  },
+  {
+    "id": "accumulators-small",
+    "name": "Accumulators (small)",
+    "description": "A compact device that stores hydraulic fluid under pressure. It acts like a hydraulic battery and shock absorber for smaller systems, providing a burst of power when needed and smoothing out pressure spikes.",
+    "iconSrc": "/src/assets/images/icon-plant.png",
+    "priority": 3,
+    "tags": ["Hydraulic", "Pressure", "Storage"]
+  },
+  {
+    "id": "automatic-lubrication-pump",
+    "name": "Automatic Lubrication Pump with reservoir",
+    "description": "A self-contained electric pump and grease/oil container that automatically lubricates a machine's moving parts at set intervals, reducing the need for manual maintenance.",
+    "iconSrc": "/src/assets/images/icon-connection.png",
+    "priority": 4,
+    "tags": ["Lubrication", "Automatic", "Maintenance"]
+  },
+  {
+    "id": "bladder-accumulator",
+    "name": "Bladder Accumulator",
+    "description": "A device that stores hydraulic fluid under pressure, using a flexible internal bladder to absorb pressure spikes and store energy for the system to use.",
+    "iconSrc": "/src/assets/images/icon-plant.png",
+    "priority": 1,
+    "tags": ["Hydraulic", "Bladder", "Energy Storage"]
+  },
+  {
+    "id": "fuse",
+    "name": "Fuse",
+    "description": "A heavy-duty industrial fuse designed to act as a safety \"weak link.\" It protects very high-power electrical circuits by blowing and stopping the flow of electricity during a major fault like a short circuit.",
+    "iconSrc": "/src/assets/images/icon-connection.png",
+    "priority": 4,
+    "tags": ["Electrical", "Safety", "Protection"]
+  },
+  {
+    "id": "capacitor",
+    "name": "Capacitor",
+    "description": "A large industrial capacitor used to make electrical systems more efficient. It helps correct the \"power factor,\" which reduces wasted energy and can lower electricity bills in facilities with many large motors.",
+    "iconSrc": "/src/assets/images/icon-plant.png",
+    "priority": 4,
+    "tags": ["Electrical", "Efficiency", "Power Factor"]
+  }
+]

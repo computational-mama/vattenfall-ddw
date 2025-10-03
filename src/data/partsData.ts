@@ -1,3 +1,6 @@
+// Import parts data from JSON file
+import partsDataJson from './partsData.json';
+
 // Parts data structure for PartsView
 export interface PartData {
   id: string;
@@ -8,74 +11,8 @@ export interface PartData {
   tags?: string[];
 }
 
-export const partsData: PartData[] = [
-  {
-    id: "turbine-blade",
-    name: "Turbine Blade",
-    description:
-      "Aerodynamic fiberglass composite blades designed to capture wind energy efficiently",
-    iconSrc: "/src/assets/images/icon-connection.png",
-    priority: 1, // Largest box
-    tags: ["Fiberglass", "Aerodynamic", "50-80m Length"],
-  },
-  {
-    id: "nacelle",
-    name: "Nacelle",
-    description: "Weather-resistant housing containing gearbox, generator, and control systems",
-    iconSrc: "/src/assets/images/icon-plant.png",
-    priority: 2, // Largest box
-    tags: ["Housing", "Gearbox", "Generator"],
-  },
-  {
-    id: "rotor-hub",
-    name: "Rotor Hub",
-    description: "Cast iron hub connecting three blades to the main shaft assembly",
-    iconSrc: "/src/assets/images/icon-connection.png",
-    priority: 3, // Medium-large box
-    tags: ["Cast Iron", "Central Hub", "Rotating"],
-  },
-  {
-    id: "tower",
-    name: "Tower",
-    description: "Steel tubular structure supporting the entire turbine at optimal height",
-    iconSrc: "/src/assets/images/icon-plant.png",
-    priority: 3, // Medium-large box
-    tags: ["Steel", "Tubular", "80-120m Height"],
-  },
-  {
-    id: "gearbox",
-    name: "Gearbox",
-    description:
-      "High-precision transmission system converting slow blade rotation to generator speed",
-    iconSrc: "/src/assets/images/icon-connection.png",
-    priority: 4, // Medium box
-    tags: ["Transmission", "Precision", "Speed Conversion"],
-  },
-  {
-    id: "generator",
-    name: "Generator",
-    description: "Electrical generator converting mechanical rotation into clean electricity",
-    iconSrc: "/src/assets/images/icon-plant.png",
-    priority: 1, // Medium box
-    tags: ["Electrical", "Clean Energy", "Conversion"],
-  },
-  {
-    id: "foundation",
-    name: "Foundation",
-    description: "Reinforced concrete foundation anchoring the turbine to bedrock",
-    iconSrc: "/src/assets/images/icon-connection.png",
-    priority: 4, // Small box
-    tags: ["Concrete", "Reinforced", "Underground"],
-  },
-  {
-    id: "control-system",
-    name: "Control System",
-    description: "Advanced computerized system managing turbine operations and safety",
-    iconSrc: "/src/assets/images/icon-plant.png",
-    priority: 4, // Small box
-    tags: ["Computer", "Safety", "Automation"],
-  },
-];
+// Export parts data from JSON with type safety
+export const partsData: PartData[] = partsDataJson as PartData[];
 
 // Grid layout configurations based on priority
 export const gridConfigurations = {

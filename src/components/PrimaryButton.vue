@@ -1,10 +1,35 @@
 <template>
   <button
-    class="bg-[#ffda00] text-neutral-950 font-medium rounded-full px-8 py-6 hover:bg-[#ffd700] transition-colors duration-200"
-    :class="sizeClass"
+    :disabled="disabled"
+    :class="[
+      'font-medium rounded-full transition-colors duration-200',
+      sizeClass,
+      variantClass,
+      disabled ? 'cursor-not-allowed opacity-50' : ''
+    ]"
     @click="$emit('click')"
   >
+    <svg
+      v-if="iconPosition === 'left'"
+      class="w-5 h-5"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      stroke-width="2"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
     {{ label }}
+    <svg
+      v-if="iconPosition === 'right'"
+      class="w-5 h-5"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      stroke-width="2"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
   </button>
 </template>
 
@@ -14,10 +39,16 @@ import { computed } from 'vue'
 interface Props {
   label: string
   size?: 'small' | 'medium' | 'large'
+  variant?: 'primary' | 'secondary'
+  disabled?: boolean
+  iconPosition?: 'left' | 'right' | 'none'
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  size: 'medium'
+  size: 'medium',
+  variant: 'primary',
+  disabled: false,
+  iconPosition: 'none'
 })
 
 defineEmits<{
@@ -32,4 +63,24 @@ const sizeClass = computed(() => {
   }
   return sizes[props.size]
 })
+
+const variantClass = computed(() => {
+  if (props.disabled) {
+    return 'bg-gray-300 text-gray-500'
+  }
+
+  const variants = {
+    primary: 'bg-[#ffda00] text-neutral-950 hover:bg-[#ffd700]',
+    secondary: 'bg-gray-300 text-gray-700 hover:bg-gray-400'
+  }
+  return variants[props.variant]
+})
 </script>
+
+<style scoped>
+button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+</style>
