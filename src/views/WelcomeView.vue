@@ -1,5 +1,7 @@
 <template>
-  <div class="min-h-screen bg-white flex flex-col items-center justify-between py-12 px-8 overflow-hidden">
+  <div
+    class="min-h-screen bg-white flex flex-col items-center justify-between py-12 px-8 overflow-hidden"
+  >
     <!-- Logo -->
     <div class="w-full flex justify-center mb-8">
       <VattenfallLogo variant="linear-grey" size="large" />
@@ -36,64 +38,64 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
-import VattenfallLogo from '../components/VattenfallLogo.vue'
-import HeroText from '../components/HeroText.vue'
-import WindEnergyIllustration from '../components/WindEnergyIllustration.vue'
-import ProgressIndicator from '../components/ProgressIndicator.vue'
-import IdeaCounter from '../components/IdeaCounter.vue'
+import { ref, onMounted, onUnmounted } from "vue";
+import VattenfallLogo from "../components/VattenfallLogo.vue";
+import HeroText from "../components/HeroText.vue";
+import WindEnergyIllustration from "../components/WindEnergyIllustration.vue";
+import ProgressIndicator from "../components/ProgressIndicator.vue";
+import IdeaCounter from "../components/IdeaCounter.vue";
 
 // Placeholder for Firebase connection - will be replaced later
-const ideaCount = ref(64)
+const ideaCount = ref(64);
 
 // Carousel content for each slide
 const carouselContent = [
   {
-    highlightText: 'parts',
-    highlightColor: 'yellow' as const,
+    highlightText: "parts",
+    highlightColor: "yellow" as const,
     additionalText: undefined,
-    secondaryColor: 'blue' as const,
-    ending: '...'
+    secondaryColor: "blue" as const,
+    ending: "...",
   },
   {
-    highlightText: 'blades',
-    highlightColor: 'yellow' as const,
-    additionalText: 'to make surf boards.',
-    secondaryColor: 'blue' as const,
-    ending: ''
+    highlightText: "blades",
+    highlightColor: "yellow" as const,
+    additionalText: "to make surf boards.",
+    secondaryColor: "blue" as const,
+    ending: "",
   },
   {
-    highlightText: 'nacelle',
-    highlightColor: 'yellow' as const,
-    additionalText: 'to make hotel rooms.',
-    secondaryColor: 'blue' as const,
-    ending: ''
-  }
-]
+    highlightText: "nacelle",
+    highlightColor: "yellow" as const,
+    additionalText: "to make hotel rooms.",
+    secondaryColor: "blue" as const,
+    ending: "",
+  },
+];
 
 // Carousel state
-const currentImageIndex = ref(0)
-const carouselInterval = ref<number | null>(null)
+const currentImageIndex = ref(0);
+const carouselInterval = ref<number | null>(null);
 
 // Auto-rotate carousel every 5 seconds
 const startCarousel = () => {
   carouselInterval.value = window.setInterval(() => {
-    currentImageIndex.value = (currentImageIndex.value + 1) % 3
-  }, 5000)
-}
+    currentImageIndex.value = (currentImageIndex.value + 1) % 3;
+  }, 2000);
+};
 
 const stopCarousel = () => {
   if (carouselInterval.value) {
-    clearInterval(carouselInterval.value)
-    carouselInterval.value = null
+    clearInterval(carouselInterval.value);
+    carouselInterval.value = null;
   }
-}
+};
 
 onMounted(() => {
-  startCarousel()
-})
+  startCarousel();
+});
 
 onUnmounted(() => {
-  stopCarousel()
-})
+  stopCarousel();
+});
 </script>
