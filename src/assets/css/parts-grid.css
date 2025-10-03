@@ -1,0 +1,171 @@
+/* Dynamic Parts Grid Layout - Priority-based sizing for Vertical Monitors */
+.parts-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  gap: 1.5rem; /* 24px gap for better spacing */
+  min-height: calc(100vh - 380px); /* Account for header, title, and fixed footer */
+  max-width: 1400px;
+  margin: 0 auto 100px auto; /* Add bottom margin for fixed footer */
+}
+
+/* Dynamic grid areas - Staggered masonry-style layout */
+.parts-grid[data-layout="default"] {
+  grid-template-areas:
+    "part1    part1    part2     part2     part2"
+    "part1    part1    part2     part2     part2"
+    "part3    part3    part2     part2     part2"
+    "part3    part3    part4     part4     part4"
+    "part5    part5    part4     part4     part4"
+    "part5    part5    part4     part4     part4"
+    "part6    part6    part6     part7     part7"
+    "part6    part6    part6     part7     part7"
+    "part6    part6    part6     part8     part8"
+    "part6    part6    part6     part8     part8";
+}
+
+/* Dynamic Grid Area Assignments - Generated based on parts data */
+.part-1 {
+  grid-area: part1;
+}
+.part-2 {
+  grid-area: part2;
+}
+.part-3 {
+  grid-area: part3;
+}
+.part-4 {
+  grid-area: part4;
+}
+.part-5 {
+  grid-area: part5;
+}
+.part-6 {
+  grid-area: part6;
+}
+.part-7 {
+  grid-area: part7;
+}
+.part-8 {
+  grid-area: part8;
+}
+
+/* Priority-based styling */
+.priority-1 {
+  /* Largest boxes - most important parts */
+  background: #f9f9f9;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.priority-1:hover {
+  border-color: #3752a4;
+  background: rgba(55, 82, 164, 0.05);
+}
+
+.priority-1.selected {
+  background: rgba(57, 111, 176, 0.15);
+  border-color: #396fb0;
+  border-width: 4px;
+  box-shadow: 0 4px 12px rgba(57, 111, 176, 0.2);
+  transform: scale(1.02);
+}
+
+.priority-2 {
+  /* Medium-large boxes */
+  background: #f9f9f9;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.priority-2:hover {
+  border-color: #3752a4;
+  background: rgba(55, 82, 164, 0.05);
+}
+
+.priority-2.selected {
+  background: rgba(57, 111, 176, 0.15);
+  border-color: #396fb0;
+  border-width: 4px;
+  box-shadow: 0 4px 12px rgba(57, 111, 176, 0.2);
+  transform: scale(1.02);
+}
+
+.priority-3 {
+  /* Medium boxes */
+  background: #f5f5f5;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.priority-3:hover {
+  border-color: #3752a4;
+  background: rgba(55, 82, 164, 0.05);
+}
+
+.priority-3.selected {
+  background: rgba(57, 111, 176, 0.15);
+  border-color: #396fb0;
+  border-width: 3px;
+  box-shadow: 0 4px 12px rgba(57, 111, 176, 0.2);
+  transform: scale(1.02);
+}
+
+.priority-4 {
+  /* Small boxes */
+  background: #f0f0f0;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.priority-4:hover {
+  border-color: #3752a4;
+  background: rgba(55, 82, 164, 0.05);
+}
+
+.priority-4.selected {
+  background: rgba(57, 111, 176, 0.15);
+  border-color: #396fb0;
+  border-width: 3px;
+  box-shadow: 0 4px 12px rgba(57, 111, 176, 0.2);
+  transform: scale(1.02);
+}
+
+/* Responsive adjustments for different screen sizes */
+@media (max-height: 900px) {
+  .parts-grid {
+    min-height: calc(100vh - 180px);
+    gap: 1rem;
+  }
+}
+
+@media (min-height: 1200px) {
+  .parts-grid {
+    min-height: calc(100vh - 220px);
+    gap: 2rem;
+  }
+}
+
+/* Ensure cards have proper aspect ratios on vertical monitors */
+.parts-grid > div {
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/*
+To modify the layout later, just change the grid-template-areas above.
+For example, to make the energy area bigger:
+
+grid-template-areas:
+  "supply    supply    part1     part1     part1"
+  "supply    supply    part1     part1     part1"
+  "selected  selected  part1     part1     part1"
+  "selected  selected  part2     part2     part2"
+  "connection connection part2   part2     part2"
+  "connection connection energy  energy    energy"
+  "large     large     energy    energy    energy"
+  "large     large     energy    energy    energy";
+*/

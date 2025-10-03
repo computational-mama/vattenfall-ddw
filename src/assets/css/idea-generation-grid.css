@@ -1,0 +1,115 @@
+/* Idea Generation Grid Layout - Optimized for Vertical Monitors */
+.idea-generation-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto 1fr;
+  gap: 2rem;
+  height: calc(100vh - 280px); /* Fixed height to prevent overflow */
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-bottom: 2rem; /* Space above footer */
+  grid-template-areas:
+    "vattenbot"
+    "part-info"
+    "chat-area";
+}
+
+/* Grid Area Assignments */
+.vattenbot-header {
+  grid-area: vattenbot;
+}
+
+.part-information {
+  grid-area: part-info;
+}
+
+.chat-interface {
+  grid-area: chat-area;
+  overflow: hidden;
+}
+
+.navigation-area {
+  grid-area: navigation;
+}
+
+/* Card styling optimized for vertical layout */
+.idea-card {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+/* Part info section optimization */
+.part-info-content {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2rem;
+  align-items: start;
+  padding: 2rem;
+  background-color: #f9fafb;
+}
+
+.part-icon-container {
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Chat area optimization for vertical space */
+.chat-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Fill available grid area */
+  background: linear-gradient(135deg, #FFDA00 0%, #87CEEB 40%, #196DB9 100%);
+  border-radius: 1rem;
+}
+
+.chat-question-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.chat-input-area {
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 0 0 1rem 1rem;
+}
+
+/* Responsive adjustments for different screen heights */
+@media (min-height: 1200px) {
+  .idea-generation-grid {
+    gap: 3rem;
+    height: calc(100vh - 320px);
+  }
+}
+
+@media (max-height: 900px) {
+  .idea-generation-grid {
+    gap: 1.5rem;
+    height: calc(100vh - 240px);
+  }
+}
+
+/* Ensure proper font application */
+.idea-generation-grid h1,
+.idea-generation-grid h2,
+.idea-generation-grid h3 {
+  font-family: 'VattenfallHall', sans-serif;
+}
+
+.vattenbot-title {
+  font-family: 'VattenfallHall', sans-serif;
+  font-weight: 600;
+}

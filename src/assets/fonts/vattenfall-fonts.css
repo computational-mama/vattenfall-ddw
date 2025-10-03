@@ -1,0 +1,77 @@
+/* Vattenfall Custom Fonts */
+
+/* VattenfallHallDisplay-Bold for headers */
+@font-face {
+  font-family: 'VattenfallHallDisplay';
+  src: url('./VattenfallHallDisplay-Bold.woff2') format('woff2'),
+       url('./VattenfallHallDisplay-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* VattenfallHall Light */
+@font-face {
+  font-family: 'VattenfallHall';
+  src: url('./VattenfallHall-Light.woff2') format('woff2'),
+       url('./VattenfallHall-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* VattenfallHall Regular */
+@font-face {
+  font-family: 'VattenfallHall';
+  src: url('./VattenfallHall-Regular.woff2') format('woff2'),
+       url('./VattenfallHall-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* VattenfallHall Medium */
+@font-face {
+  font-family: 'VattenfallHall';
+  src: url('./VattenfallHall-Medium.woff2') format('woff2'),
+       url('./VattenfallHall-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* VattenfallHall SemiBold */
+@font-face {
+  font-family: 'VattenfallHall';
+  src: url('./VattenfallHall-SemiBold.woff2') format('woff2'),
+       url('./VattenfallHall-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* VattenfallHall Bold */
+@font-face {
+  font-family: 'VattenfallHall';
+  src: url('./VattenfallHall-Bold.woff2') format('woff2'),
+       url('./VattenfallHall-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* VattenfallHall Heavy */
+@font-face {
+  font-family: 'VattenfallHall';
+  src: url('./VattenfallHall-Heavy.woff2') format('woff2'),
+       url('./VattenfallHall-Heavy.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Tailwind Theme Extension */
+@theme {
+  --font-vattenfall-display: "VattenfallHallDisplay", sans-serif;
+  --font-vattenfall: "VattenfallHall", sans-serif;
+}
