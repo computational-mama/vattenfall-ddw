@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 
 interface Props {
   title: string;
@@ -33,7 +33,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   showClose: false,
-  closeRoute: '/'
+  closeRoute: "/",
 });
 
 const router = useRouter();

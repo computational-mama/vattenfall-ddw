@@ -15,7 +15,7 @@
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
           </svg>
         </div>
-        <span class="text-sm font-semibold text-gray-700 font-vattenfall">Vattenbot</span>
+        <span class="text-md font-semibold text-gray-700 font-vattenfall">Vattenbot</span>
       </div>
 
       <!-- Message content -->
@@ -91,7 +91,7 @@ const parsedContent = computed(() => {
   // Convert markdown images to img tags
   content = content.replace(
     /!\[(.*?)\]\((.*?)\)/g,
-    '<img src="$2" alt="$1" class="rounded-lg my-3 max-w-full" />',
+    '<img src="$2" alt="$1" class="rounded-lg my-6 max-w-full" />',
   );
   // Convert line breaks
   // content = content.replace(/\n/g, "<br>");

@@ -19,7 +19,7 @@
         <PageTitle title="Thank you for participating!" :show-close="true" close-route="/" />
 
         <!-- Subtitle with Button -->
-        <div class="flex items-start justify-between -mt-6">
+        <div class="flex items-center justify-between -mt-6">
           <p class="text-lg leading-[1.5] text-black font-vattenfall">
             Your idea breathes life back into a<br />decommissioned windmill.
           </p>
@@ -90,7 +90,10 @@
             </p>
             <div class="inline-block">
               <span
-                :class="['px-5 py-2 rounded-full text-sm font-vattenfall font-medium', difficultyBadgeClasses]"
+                :class="[
+                  'px-5 py-2 rounded-full text-sm font-vattenfall font-medium',
+                  difficultyBadgeClasses,
+                ]"
               >
                 {{ difficultyLabel }}
               </span>
@@ -100,11 +103,7 @@
           <!-- QR Code Section -->
           <div v-if="shareableUrl" class="flex flex-col relative">
             <!-- Dotted arrow decoration -->
-            <img
-              :src="dottedSwiggleSmall"
-              alt=""
-              class="absolute -right-1 top-0 w-32 h-32"
-            />
+            <img :src="dottedSwiggleSmall" alt="" class="absolute -right-1 top-0 w-32 h-32" />
 
             <p class="text-md font-vattenfall mb-6 text-[#2071b5]">
               Scan to view and<br />share your idea!
@@ -130,11 +129,7 @@
         />
 
         <!-- Windmill illustration -->
-        <img
-          :src="windmillIllustration"
-          alt=""
-          class="absolute right-12 -top-52 w-96 h-96"
-        />
+        <img :src="windmillIllustration" alt="" class="absolute right-12 -top-52 w-96 h-96" />
 
         <ImageGallery :ideas="galleryIdeas" :total-ideas="totalIdeas" />
       </div>
@@ -222,40 +217,40 @@ const latestTags = computed(() => {
 // Achievement Card - Dynamic based on difficulty
 const achievementTitle = computed(() => {
   switch (currentDifficulty.value) {
-    case 'easy':
-      return 'You are awesome!';
-    case 'medium':
-      return 'You are simply brilliant!';
-    case 'difficult':
-      return 'You are a total maverick!';
+    case "easy":
+      return "You are awesome!";
+    case "medium":
+      return "You are simply brilliant!";
+    case "difficult":
+      return "You are a total maverick!";
     default:
-      return 'You are awesome!';
+      return "You are awesome!";
   }
 });
 
 const difficultyLabel = computed(() => {
   switch (currentDifficulty.value) {
-    case 'easy':
-      return 'Easy';
-    case 'medium':
-      return 'Medium';
-    case 'difficult':
-      return 'Difficult';
+    case "easy":
+      return "Easy";
+    case "medium":
+      return "Medium";
+    case "difficult":
+      return "Difficult";
     default:
-      return 'Easy';
+      return "Easy";
   }
 });
 
 const difficultyBadgeClasses = computed(() => {
   switch (currentDifficulty.value) {
-    case 'easy':
-      return 'bg-[#e3f2fd] text-[#1976d2]';
-    case 'medium':
-      return 'bg-[#e0f2f1] text-[#00796b]';
-    case 'difficult':
-      return 'bg-[#ffe6e6] text-[#d32f2f]';
+    case "easy":
+      return "bg-[#e3f2fd] text-[#1976d2]";
+    case "medium":
+      return "bg-[#e0f2f1] text-[#00796b]";
+    case "difficult":
+      return "bg-[#ffe6e6] text-[#d32f2f]";
     default:
-      return 'bg-[#e3f2fd] text-[#1976d2]';
+      return "bg-[#e3f2fd] text-[#1976d2]";
   }
 });
 

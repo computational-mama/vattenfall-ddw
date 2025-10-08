@@ -9,40 +9,10 @@
 }
 
 /* Dynamic grid areas - Staggered masonry-style layout */
-.parts-grid[data-layout="default"] {
-  /* Remove custom grid areas for uniform layout */
-}
 
 /* Dynamic Grid Area Assignments - Generated based on parts data */
-.part-1 {
-  /* grid-area: part1; */
-}
-.part-2 {
-  /* grid-area: part2; */
-}
-.part-3 {
-  /* grid-area: part3; */
-}
-.part-4 {
-  /* grid-area: part4; */
-}
-.part-5 {
-  /* grid-area: part5; */
-}
-.part-6 {
-  /* grid-area: part6; */
-}
-.part-7 {
-  /* grid-area: part7; */
-}
-.part-8 {
-  /* grid-area: part8; */
-}
 
 /* Generic styling for all part boxes */
-.parts-grid > div {
-  /* Base styles are handled by inline Tailwind classes in Vue */
-}
 
 .parts-grid > div:hover {
   border-color: #3752a4 !important;
