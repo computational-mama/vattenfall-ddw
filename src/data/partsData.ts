@@ -60,7 +60,7 @@ function parseCSV(csv: string): PartData[] {
       id: id,
       name: values[1],
       description: values[2],
-      iconSrc: `/src/assets/images/${values[3]}`,
+      iconSrc: new URL(`../assets/images/${values[3]}`, import.meta.url).href,
       priority: priority,
     });
   }
