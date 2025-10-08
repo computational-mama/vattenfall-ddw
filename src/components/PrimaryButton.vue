@@ -2,10 +2,10 @@
   <button
     :disabled="disabled"
     :class="[
-      'font-medium rounded-full transition-colors duration-200',
+      'font-vattenfall font-medium rounded-full transition-colors duration-200',
       sizeClass,
       variantClass,
-      disabled ? 'cursor-not-allowed opacity-50' : ''
+      disabled ? 'cursor-not-allowed opacity-50' : '',
     ]"
     @click="$emit('click')"
   >
@@ -34,47 +34,49 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from "vue";
 
 interface Props {
-  label: string
-  size?: 'small' | 'medium' | 'large'
-  variant?: 'primary' | 'secondary'
-  disabled?: boolean
-  iconPosition?: 'left' | 'right' | 'none'
+  label: string;
+  size?: "small" | "medium" | "large" | "huge";
+  variant?: "primary" | "secondary";
+  disabled?: boolean;
+  iconPosition?: "left" | "right" | "none";
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  size: 'medium',
-  variant: 'primary',
+  size: "medium",
+  variant: "primary",
   disabled: false,
-  iconPosition: 'none'
-})
+  iconPosition: "none",
+});
 
 defineEmits<{
-  click: []
-}>()
+  click: [];
+}>();
 
 const sizeClass = computed(() => {
   const sizes = {
-    small: 'text-base px-6 py-4',
-    medium: 'text-xl px-8 py-6',
-    large: 'text-2xl px-10 py-7'
-  }
-  return sizes[props.size]
-})
+    small: "text-base px-6 py-4",
+    medium: "text-xl px-8 py-6",
+    large: "text-2xl px-10 py-7",
+    huge: "text-[28px] px-[80px] py-[24px] h-[90px]",
+  };
+  return sizes[props.size];
+});
 
 const variantClass = computed(() => {
   if (props.disabled) {
-    return 'bg-gray-300 text-gray-500'
+    return "bg-gray-300 text-gray-500";
   }
 
   const variants = {
-    primary: 'bg-[#ffda00] text-neutral-950 hover:bg-[#ffd700]',
-    secondary: 'bg-gray-300 text-gray-700 hover:bg-gray-400'
-  }
-  return variants[props.variant]
-})
+    primary:
+      "font-vattenfall bg-[#ffda00] text-black border-[1.25px] border-solid border-[#ffda00] hover:bg-[#ffd700]",
+    secondary: "font-vattenfall bg-gray-300 text-gray-700 hover:bg-gray-400",
+  };
+  return variants[props.variant];
+});
 </script>
 
 <style scoped>

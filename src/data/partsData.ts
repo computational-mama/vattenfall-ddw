@@ -1,5 +1,5 @@
-// Import parts data from JSON file
-import partsDataJson from './partsData.json';
+// Import parts data from CSV file
+import partsDataCsv from './partsData.csv?raw';
 
 // Parts data structure for PartsView
 export interface PartData {
@@ -11,8 +11,65 @@ export interface PartData {
   tags?: string[];
 }
 
-// Export parts data from JSON with type safety
-export const partsData: PartData[] = partsDataJson as PartData[];
+// Parse CSV data
+function parseCSV(csv: string): PartData[] {
+  const lines = csv.trim().split('\n');
+
+  const data: PartData[] = [];
+  const seenIds = new Set<string>();
+
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+
+    // Parse CSV line handling quoted fields with commas and escaped quotes
+    const values: string[] = [];
+    let currentValue = '';
+    let inQuotes = false;
+
+    for (let j = 0; j < line.length; j++) {
+      const char = line[j];
+      const nextChar = line[j + 1];
+
+      if (char === '"' && nextChar === '"' && inQuotes) {
+        // Escaped quote - add single quote to value
+        currentValue += '"';
+        j++; // Skip next quote
+      } else if (char === '"') {
+        // Toggle quote state
+        inQuotes = !inQuotes;
+      } else if (char === ',' && !inQuotes) {
+        // Field separator
+        values.push(currentValue);
+        currentValue = '';
+      } else {
+        currentValue += char;
+      }
+    }
+    values.push(currentValue); // Push the last value
+
+    const id = values[0];
+
+    // Skip duplicate IDs
+    if (seenIds.has(id)) continue;
+    seenIds.add(id);
+
+    const priority = parseInt(values[4]) as 1 | 2 | 3 | 4;
+
+    data.push({
+      id: id,
+      name: values[1],
+      description: values[2],
+      iconSrc: `/src/assets/images/${values[3]}`,
+      priority: priority,
+    });
+  }
+
+  return data;
+}
+
+// Export parts data from CSV with type safety
+export const partsData: PartData[] = parseCSV(partsDataCsv);
 
 // Grid layout configurations based on priority
 export const gridConfigurations = {

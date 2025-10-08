@@ -1,14 +1,17 @@
 <template>
-  <div class="relative w-full flex items-center justify-center">
-    <h1
-      class="font-vattenfall-display font-bold text-5xl md:text-6xl lg:text-7xl text-center leading-tight text-neutral-950"
-    >
-      What if a wind mill's <span :class="highlightColorClass">{{ highlightText }}</span> could be
-      re-used
-      <span v-if="additionalText">
-        <span :class="secondaryColorClass">{{ additionalText }}</span></span
-      >{{ ending }}
-    </h1>
+  <div
+    class="flex flex-col gap-[10px] items-center text-center font-vattenfall-display font-bold w-full"
+  >
+    <div class="flex flex-col gap-[64px] items-center text-black w-full">
+      <p class="text-[28px] leading-[1.3] m-0">What if a</p>
+      <div class="text-[72px] leading-[1.16] w-full">
+        <p class="m-0">Wind turbine's {{ highlightText }}</p>
+        <p class="m-0">could be re-used as a</p>
+      </div>
+    </div>
+    <p class="text-[#2071b5] text-[72px] leading-[1.16] m-0">
+      {{ additionalText || ending }}
+    </p>
   </div>
 </template>
 

@@ -2,14 +2,13 @@
 .idea-generation-grid {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: auto auto 1fr;
+  grid-template-rows: auto 1fr;
   gap: 2rem;
-  height: calc(100vh - 280px); /* Fixed height to prevent overflow */
+  height: calc(100vh - 320px); /* Fixed height to prevent overflow */
   max-width: 1400px;
   margin: 0 auto;
-  padding-bottom: 2rem; /* Space above footer */
+  padding-bottom: 2rem;
   grid-template-areas:
-    "vattenbot"
     "part-info"
     "chat-area";
 }
@@ -41,6 +40,12 @@
 }
 
 /* Part info section optimization */
+.part-information {
+  grid-area: part-info;
+  overflow: hidden;
+  max-width: 100%;
+}
+
 .part-info-content {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -67,8 +72,16 @@
   display: flex;
   flex-direction: column;
   height: 100%; /* Fill available grid area */
-  background: linear-gradient(135deg, #FFDA00 0%, #87CEEB 40%, #196DB9 100%);
+  background: white;
+  border: 1.5px solid #d1d1d6;
   border-radius: 1rem;
+  overflow: hidden;
+}
+
+.chat-messages-area {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
 }
 
 .chat-question-area {
@@ -81,10 +94,8 @@
 }
 
 .chat-input-area {
-  padding: 2rem;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 0 0 1rem 1rem;
+  padding: 1.5rem 2rem;
+  background: white;
 }
 
 /* Responsive adjustments for different screen heights */

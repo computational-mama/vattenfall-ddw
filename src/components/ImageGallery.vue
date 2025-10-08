@@ -1,76 +1,82 @@
 <template>
-  <div class="image-gallery w-full">
-    <!-- Gallery Header -->
-    <div class="mb-8">
-      <p class="text-xl font-vattenfall font-medium" style="color: #6496D3">
-        Scroll through {{ totalIdeas }} Ideas shared<br />by participants like you!
-      </p>
-    </div>
+  <div class="image-gallery w-full z-30">
+    <!-- Create 3 columns with flex -->
+    <div class="flex gap-[16px] py-[40px]">
+      <!-- Column 1 -->
+      <div class="flex flex-col gap-[16px] flex-1">
+        <IdeaCard
+          v-for="(idea, index) in column1Ideas"
+          :key="index"
+          :part-name="idea.partName"
+          :idea-count="idea.ideaCount"
+          :image-url="idea.imageUrl"
+          :idea-title="idea.ideaTitle"
+          :part-icon="idea.partIcon"
+          :tags="idea.tags"
+        />
+      </div>
 
-    <!-- Masonry Grid -->
-    <div class="gallery-grid">
-      <IdeaCard
-        v-for="(idea, index) in ideas"
-        :key="index"
-        :part-name="idea.partName"
-        :idea-count="idea.ideaCount"
-        :image-url="idea.imageUrl"
-        :idea-title="idea.ideaTitle"
-        :part-icon="idea.partIcon"
-      />
+      <!-- Column 2 (Middle - with stagger) -->
+      <div class="flex flex-col gap-[16px] py-[112px] flex-1">
+        <IdeaCard
+          v-for="(idea, index) in column2Ideas"
+          :key="index"
+          :part-name="idea.partName"
+          :idea-count="idea.ideaCount"
+          :image-url="idea.imageUrl"
+          :idea-title="idea.ideaTitle"
+          :part-icon="idea.partIcon"
+          :tags="idea.tags"
+        />
+      </div>
+
+      <!-- Column 3 -->
+      <div class="flex flex-col gap-[16px] flex-1">
+        <IdeaCard
+          v-for="(idea, index) in column3Ideas"
+          :key="index"
+          :part-name="idea.partName"
+          :idea-count="idea.ideaCount"
+          :image-url="idea.imageUrl"
+          :idea-title="idea.ideaTitle"
+          :part-icon="idea.partIcon"
+          :tags="idea.tags"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import IdeaCard from './IdeaCard.vue'
+import { computed } from "vue";
+import IdeaCard from "./IdeaCard.vue";
 
 export interface IdeaData {
-  partName: string
-  ideaCount: number
-  imageUrl: string
-  ideaTitle: string
-  partIcon?: string
+  partName: string;
+  ideaCount: number;
+  imageUrl: string;
+  ideaTitle: string;
+  partIcon?: string;
+  tags?: string[];
 }
 
 interface Props {
-  ideas: IdeaData[]
-  totalIdeas?: number
+  ideas: IdeaData[];
+  totalIdeas?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  totalIdeas: 64
-})
+  totalIdeas: 64,
+});
 
-// Can be used for future filtering/sorting
-const displayedIdeas = computed(() => props.ideas)
+// Split ideas into 3 columns
+const column1Ideas = computed(() => props.ideas.filter((_, index) => index % 3 === 0));
+
+const column2Ideas = computed(() => props.ideas.filter((_, index) => index % 3 === 1));
+
+const column3Ideas = computed(() => props.ideas.filter((_, index) => index % 3 === 2));
 </script>
 
 <style scoped>
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  width: 100%;
-}
-
-@media (min-width: 768px) {
-  .gallery-grid {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .gallery-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (min-width: 1280px) {
-  .gallery-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
+/* Styles handled by Tailwind */
 </style>

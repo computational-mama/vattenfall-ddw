@@ -1,37 +1,35 @@
 <template>
   <div
-    class="min-h-screen bg-white flex flex-col items-center justify-between py-12 px-8 overflow-hidden"
+    class="min-h-screen bg-white flex flex-col relative overflow-hidden"
   >
     <!-- Logo -->
-    <div class="w-full flex justify-center mb-8">
+    <div class="absolute left-1/2 -translate-x-1/2 top-[48px] w-[231px] h-[77px] z-20">
       <VattenfallLogo variant="linear-grey" size="large" />
     </div>
 
-    <!-- Main Content Area -->
-    <div class="flex-1 flex flex-col items-center w-full max-w-7xl mx-auto relative">
-      <!-- Hero Text -->
-      <div class="mt-8 mb-auto z-10">
-        <HeroText
-          :highlight-text="carouselContent[currentImageIndex].highlightText"
-          :highlight-color="carouselContent[currentImageIndex].highlightColor"
-          :additional-text="carouselContent[currentImageIndex].additionalText"
-          :secondary-color="carouselContent[currentImageIndex].secondaryColor"
-          :ending="carouselContent[currentImageIndex].ending"
-        />
-      </div>
+    <!-- Hero Text -->
+    <div class="absolute left-[90px] top-[244px] w-[900px] z-20">
+      <HeroText
+        :highlight-text="carouselContent[currentImageIndex].highlightText"
+        :highlight-color="carouselContent[currentImageIndex].highlightColor"
+        :additional-text="carouselContent[currentImageIndex].additionalText"
+        :secondary-color="carouselContent[currentImageIndex].secondaryColor"
+        :ending="carouselContent[currentImageIndex].ending"
+      />
+    </div>
 
-      <!-- Wind Energy Illustration with Carousel -->
-      <div class="absolute inset-0 flex items-center justify-center opacity-90">
-        <WindEnergyIllustration :current-index="currentImageIndex" :total-images="3" />
-      </div>
+    <!-- Wind Energy Illustration with Carousel -->
+    <div class="absolute left-[48px] top-[362px] w-[984px] h-[1180px] z-0">
+      <WindEnergyIllustration :current-index="currentImageIndex" :total-images="3" />
+    </div>
+
+    <!-- Progress Indicator -->
+    <div class="absolute left-[48px] top-[1590px] w-[984px] z-20">
+      <ProgressIndicator :current-step="currentImageIndex + 1" :total-steps="3" />
     </div>
 
     <!-- Bottom Section -->
-    <div class="w-full flex flex-col items-center gap-12 z-10">
-      <!-- Progress Indicator -->
-      <ProgressIndicator :current-step="currentImageIndex + 1" :total-steps="3" />
-
-      <!-- Idea Counter & CTA -->
+    <div class="absolute bottom-[48px] left-1/2 -translate-x-1/2 w-[984px] h-[200px] flex items-center justify-between py-[40px] z-20">
       <IdeaCounter :idea-count="ideaCount" />
     </div>
   </div>
@@ -62,23 +60,23 @@ const carouselContent = [
   {
     highlightText: "parts",
     highlightColor: "yellow" as const,
-    additionalText: undefined,
+    additionalText: "Canal Bridge",
     secondaryColor: "blue" as const,
-    ending: "...",
+    ending: "Canal Bridge",
   },
   {
     highlightText: "blades",
     highlightColor: "yellow" as const,
-    additionalText: "to make surf boards.",
+    additionalText: "Surf boards",
     secondaryColor: "blue" as const,
-    ending: "",
+    ending: "Surf boards",
   },
   {
     highlightText: "nacelle",
     highlightColor: "yellow" as const,
-    additionalText: "to make hotel rooms.",
+    additionalText: "Hotel rooms",
     secondaryColor: "blue" as const,
-    ending: "",
+    ending: "Hotel rooms",
   },
 ];
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-full h-full flex items-center justify-center">
+  <div class="relative w-full h-full rounded-none">
     <!-- Wind Energy Infrastructure Illustration with Carousel -->
     <transition name="fade" mode="out-in">
       <img
@@ -13,21 +13,21 @@
 </template>
 
 <script setup lang="ts">
-import welcomeImage1 from '@/assets/images/welcomeImage1.svg'
-import welcomeImage2 from '@/assets/images/welcomeImage2.svg'
-import welcomeImage3 from '@/assets/images/welcomeImage3.svg'
+import welcomeImage1 from "@/assets/images/welcomeImage1.svg";
+import welcomeImage2 from "@/assets/images/welcomeImage2.svg";
+import welcomeImage3 from "@/assets/images/welcomeImage3.svg";
 
 interface Props {
-  currentIndex?: number
-  totalImages?: number
+  currentIndex?: number;
+  totalImages?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   currentIndex: 0,
-  totalImages: 3
-})
+  totalImages: 3,
+});
 
-const welcomeImages = [welcomeImage1, welcomeImage2, welcomeImage3]
+const welcomeImages = [welcomeImage1, welcomeImage2, welcomeImage3];
 </script>
 
 <style scoped>

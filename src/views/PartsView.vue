@@ -1,33 +1,64 @@
 <template>
-  <div class="min-h-screen bg-white">
-    <VattenfallHeader title="" />
+  <div class="min-h-screen bg-white relative flex flex-col">
+    <!-- Fixed Header Section -->
+    <div class="fixed top-0 left-0 right-0 bg-white z-20">
+      <VattenfallHeader title="" />
 
-    <div class="px-8 pb-12">
-      <PageTitle title="Select Complexity:" />
+      <div class="px-[48px] pb-6">
+        <PageTitle title="Pick your parts to explore" :show-close="true" close-route="/" />
 
-      <!-- Difficulty Selection -->
-      <div class="flex justify-center gap-4 mb-12 mt-8">
-        <button
-          v-for="level in difficulties"
-          :key="level.value"
-          @click="setDifficultyLevel(level.value)"
-          :class="[
-            'px-8 py-4 rounded-full font-vattenfall font-medium text-xl transition-all',
-            currentDifficulty === level.value
-              ? 'bg-[#396fb0] text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
-          ]"
-        >
-          {{ level.label }}
-        </button>
+        <!-- Difficulty Selection with Tabs -->
+        <div class="mb-10">
+          <div class="flex gap-x-10 relative pb-8">
+            <button
+              v-for="(level, index) in difficulties"
+              :key="level.value"
+              :ref="
+                (el) => {
+                  if (el) difficultyRefs[index] = el as HTMLElement;
+                }
+              "
+              @click="setDifficultyLevel(level.value)"
+              :class="[
+                'px-[32px] py-[12px] rounded-full font-vattenfall font-medium text-2xl transition-all relative',
+                currentDifficulty === level.value
+                  ? 'bg-[#2071b5] text-white'
+                  : 'bg-[#e5e5e5] text-[#4a4a4a] hover:bg-[#d5d5d5]',
+              ]"
+            >
+              {{ level.label }}
+            </button>
+            <!-- Active tab indicator line -->
+            <div
+              class="absolute bottom-0 h-1 bg-[#2071b5] transition-all duration-300"
+              :style="tabIndicatorStyle"
+            ></div>
+          </div>
+          <!-- Full width underline -->
+          <div class="w-full h-[1px] bg-[#d1d1d6]"></div>
+        </div>
+
+        <!-- Instruction text -->
+        <div class="mb-[32px]">
+          <p class="text-[18px] leading-[1.5] text-black font-vattenfall">
+            Select <strong>{{ maxPartsWord }}</strong> part{{
+              currentDifficulty === "easy" ? "" : "s"
+            }}
+            from below to ideate on.
+          </p>
+          <p class="text-[18px] leading-[1.5] text-black font-vattenfall">
+            Feel like challenging yourself? Choose toggle to 'Medium' or 'Difficult' level to choose
+            more that one part.
+          </p>
+        </div>
       </div>
+    </div>
 
-      <!-- Instruction text -->
-      <p class="text-center text-gray-500 mb-8 text-lg font-vattenfall">
-        Choose {{ maxPartsText }} and reimagine their usage.
-      </p>
+    <!-- Spacer to push content below fixed header -->
+    <div style="height: 500px"></div>
 
-      <!-- Grid container -->
+    <!-- Scrollable Grid container -->
+    <div class="px-[48px] pb-[160px]">
       <div class="w-full">
         <div class="parts-grid" data-layout="default">
           <!-- Dynamic parts generation based on data -->
@@ -37,71 +68,51 @@
             :class="[
               `part-${index + 1}`,
               `priority-${part.priority}`,
-              'rounded-xl p-6 cursor-pointer transition-all flex flex-col items-center justify-center text-center',
+              'bg-[#F9F9F9] border-[#2071B5] border-solid border-2 transition-all ease-in rounded-xl p-6 cursor-pointer flex flex-col items-center text-center relative min-h-[500px]',
               { selected: isPartSelected(part.id) },
             ]"
             @click="togglePart(part)"
           >
-            <!-- Show arrow icon for priority 1 and 2 parts -->
-            <!-- <div v-if="part.priority <= 2" class="absolute top-6 right-6 w-6 h-6">
+            <!-- Selection checkmark icon - top right -->
+            <div
+              v-if="isPartSelected(part.id)"
+              class="absolute top-[16px] right-[16px] w-[40px] h-[40px] bg-[#4caf50] rounded-full flex items-center justify-center"
+            >
               <svg
+                width="24"
+                height="24"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="currentColor"
-                class="w-full h-full text-gray-400"
+                stroke="white"
+                stroke-width="3"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.5"
-                  d="m7 7 10 10M7 17 17 7"
-                ></path>
+                <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
-            </div> -->
+            </div>
+            <!-- Unselected circle icon - top right -->
+            <div
+              v-else
+              class="absolute top-[16px] right-[16px] w-[40px] h-[40px] border-[2px] border-[#d1d1d6] rounded-full"
+            ></div>
 
             <!-- Part content -->
-            <div class="flex flex-col items-center justify-center h-full text-center relative">
+            <div
+              class="flex flex-col items-center justify-between h-full text-center relative pt-[60px]"
+            >
               <!-- Icon/Image -->
-              <div
-                :class="[
-                  'mb-4 flex items-center justify-center',
-                  part.priority === 1
-                    ? 'w-24 h-24'
-                    : part.priority === 2
-                      ? 'w-20 h-20'
-                      : part.priority === 3
-                        ? 'w-16 h-16'
-                        : 'w-12 h-12',
-                ]"
-              >
+              <div class="flex w-80 h-80 mb-6">
                 <img :src="part.iconSrc" :alt="part.name" class="w-full h-full object-contain" />
               </div>
+              <div class="px-4 flex flex-col">
+                <!-- Part Name -->
+                <h3 class="text-[#3752a4] font-medium font-vattenfall mb-3 text-3xl">
+                  {{ part.name }}
+                </h3>
 
-              <!-- Part Name -->
-              <h3 :class="['text-[#3752a4] font-medium font-vattenfall mb-3 text-3xl']">
-                {{ part.name }}
-              </h3>
-
-              <!-- Description (shown for priority 1-3) -->
-              <p
-                v-if="part.priority <= 3"
-                :class="['text-[#696977] opacity-70 font-vattenfall leading-relaxed text-xl']"
-              >
-                {{ part.description }}
-              </p>
-
-              <!-- Tags (shown only for priority 1) -->
-              <div
-                v-if="part.priority === 1 && part.tags"
-                class="flex flex-wrap gap-2 mt-4 justify-center"
-              >
-                <span
-                  v-for="tag in part.tags.slice(0, 3)"
-                  :key="tag"
-                  class="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-md font-vattenfall font-light"
-                >
-                  {{ tag }}
-                </span>
+                <!-- Description -->
+                <p class="text-[#696977] opacity-70 font-vattenfall leading-relaxed text-xl">
+                  {{ part.description }}
+                </p>
               </div>
             </div>
           </div>
@@ -109,14 +120,21 @@
       </div>
     </div>
 
-    <NavigationFooter>
-      <NavigationButtons
-        :show-back="false"
-        next-text="Next"
-        :disable-next="!isSelectionComplete"
-        @next="goToIdeaGeneration"
-      />
-    </NavigationFooter>
+    <!-- Bottom Button -->
+    <div class="fixed bottom-[48px] left-1/2 -translate-x-1/2 z-30">
+      <button
+        @click="goToIdeaGeneration"
+        :disabled="!isSelectionComplete"
+        :class="[
+          'px-[80px] py-[24px] rounded-full font-vattenfall text-[28px] leading-[1.35] transition-all border-[1.25px] border-solid',
+          isSelectionComplete
+            ? 'bg-[#ffda00] border-[#ffda00] text-black hover:bg-[#ffd700]'
+            : 'bg-gray-200 border-gray-200 text-gray-400 cursor-not-allowed',
+        ]"
+      >
+        Let's Go!
+      </button>
+    </div>
   </div>
 </template>
 
@@ -125,8 +143,6 @@ import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import VattenfallHeader from "../components/VattenfallHeader.vue";
 import PageTitle from "../components/PageTitle.vue";
-import NavigationFooter from "../components/NavigationFooter.vue";
-import NavigationButtons from "../components/NavigationButtons.vue";
 import { useSelectedPart, type Difficulty } from "../composables/useSelectedPart";
 import { partsData, getPartsByPriority, type PartData } from "../data/partsData";
 
@@ -142,6 +158,7 @@ const difficulties = [
 
 const currentDifficulty = ref<Difficulty>(getDifficulty());
 const selectedPartIds = ref<string[]>([]);
+const difficultyRefs = ref<(HTMLElement | null)[]>([]);
 
 // Get parts sorted by priority (1 = highest priority first)
 const sortedParts = computed(() => getPartsByPriority());
@@ -150,6 +167,29 @@ const maxPartsText = computed(() => {
   const maxParts =
     currentDifficulty.value === "easy" ? 1 : currentDifficulty.value === "medium" ? 2 : 3;
   return maxParts === 1 ? "1 part" : `${maxParts} parts`;
+});
+
+const maxPartsWord = computed(() => {
+  if (currentDifficulty.value === "easy") return "one";
+  if (currentDifficulty.value === "medium") return "two";
+  return "three";
+});
+
+const tabIndicatorStyle = computed(() => {
+  const index = difficulties.findIndex((d) => d.value === currentDifficulty.value);
+  const button = difficultyRefs.value[index];
+
+  if (!button) {
+    return { width: "0px", left: "0px" };
+  }
+
+  const width = button.offsetWidth;
+  const left = button.offsetLeft;
+
+  return {
+    width: `${width}px`,
+    left: `${left}px`,
+  };
 });
 
 const isSelectionComplete = computed(() => {
