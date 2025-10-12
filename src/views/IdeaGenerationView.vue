@@ -187,6 +187,14 @@ const selectedParts = computed(() => {
 const chatMessages = ref<ChatMessageType[]>([]);
 const userInput = ref("");
 const chatMessagesContainer = ref<HTMLElement | null>(null);
+const inputField = ref<HTMLInputElement | null>(null);
+
+// Focus input field for touchscreen
+const focusInput = () => {
+  if (inputField.value) {
+    inputField.value.focus();
+  }
+};
 
 // Auto-scroll to bottom of chat
 const scrollToBottom = async () => {
