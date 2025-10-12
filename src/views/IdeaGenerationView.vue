@@ -4,42 +4,45 @@
 
     <!-- Main Content Area with Grid Layout -->
     <div class="px-8 pb-12 relative">
-      <PageTitle title="Co-create your idea with Vattenbot" :show-close="true" close-route="/choose" />
+      <PageTitle
+        title="Co-create your idea with Vattenbot"
+        :show-close="true"
+        close-route="/choose"
+      />
 
       <div class="idea-generation-grid">
         <!-- Part Selection Display -->
         <div class="part-information">
-          <p class="text-sm text-gray-500 uppercase tracking-wide mb-3 font-vattenfall">
-            Selected part
-          </p>
+          <h3 class="text-2xl font-bold text-black mb-4 font-vattenfall z-50">Parts selected:</h3>
 
           <!-- Horizontal scrollable cards for multiple parts -->
-          <div class="overflow-x-auto overflow-y-hidden">
-            <div class="flex gap-6 pb-4 min-w-min">
+          <div class="">
+            <div class="flex flex-nowrap gap-3">
               <div
                 v-for="(part, index) in selectedParts"
                 :key="part.id"
-                class="idea-card bg-[#f9fafb] p-8 rounded-xl flex-shrink-0 w-[400px]"
+                class="bg-[#f9fafb] rounded-xl flex-shrink-0 w-xs border border-gray-200"
               >
                 <!-- Single column layout for card -->
-                <div class="flex flex-col gap-6">
+                <div class="flex flex-col items-center">
                   <!-- Part Image/Icon - Top -->
-                  <div
-                    class="w-full h-[200px] bg-white rounded-lg flex items-center justify-center"
-                  >
+                  <div class="w-32 h-32 rounded-t-xl flex items-center justify-center p-2">
                     <img
                       :src="part.iconSrc"
                       :alt="part.name"
-                      class="max-w-full max-h-full object-contain p-6"
+                      class="max-w-full max-h-full object-contain"
                     />
                   </div>
 
                   <!-- Part Details - Bottom -->
-                  <div>
-                    <h3 class="font-semibold mb-3 font-vattenfall" style="color: #2071b5">
+                  <div class="py-3 px-4">
+                    <h3
+                      class="font-bold mb-2 font-vattenfall text-xl text-center"
+                      style="color: #2071b5"
+                    >
                       {{ part.name }}
                     </h3>
-                    <p class="text-gray-600 leading-relaxed font-vattenfall text-sm">
+                    <p class="text-gray-600 leading-relaxed font-vattenfall text-xs px-4">
                       {{ part.description }}
                     </p>
                   </div>
@@ -52,6 +55,12 @@
         <!-- Chat Interface -->
         <div class="chat-interface">
           <div class="chat-content">
+            <div class="h-18 bg-[#f6f6f6] flex flex-row p-6 items-center">
+              <div class="bg-black rounded-full w-6 h-6">
+                <img :src="botIcon" alt="Vattenbot Icon" class="text-white" />
+              </div>
+              <h3 class="text-2xl font-vattenfall font-light px-4">Generate an image</h3>
+            </div>
             <!-- Chat Messages Area -->
             <div
               ref="chatMessagesContainer"
@@ -88,27 +97,15 @@
             <!-- Chat Input -->
             <div class="chat-input-area">
               <div class="flex items-center gap-3 px-4 py-3">
-                <!-- Back Arrow Button -->
-                <button
-                  @click="goBack"
-                  class="w-18 h-18 flex items-center justify-around text-gray-600 hover:bg-gray-200 bg-[#f5f5f5] rounded-full transition-colors flex-shrink-0"
-                >
-                  <svg
-                    class="w-8 h-8"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    stroke-width="2"
-                  >
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-                  </svg>
-                </button>
-
                 <!-- Input Field -->
                 <input
+                  ref="inputField"
                   v-model="userInput"
                   @keyup.enter="sendMessage"
+                  @touchstart="focusInput"
                   type="text"
+                  inputmode="text"
+                  autocomplete="off"
                   placeholder="Ask me anything ..."
                   class="flex-1 border-none outline-none bg-[#f5f5f5] rounded-full text-gray-700 placeholder-gray-400 font-vattenfall text-xl p-6"
                 />
@@ -129,6 +126,16 @@
         </div>
       </div>
     </div>
+    <!-- Fixed Footer -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-[#e5e5e5] z-30">
+      <div class="flex items-center justify-between px-[48px] py-[32px] max-w-[1400px] mx-auto">
+        <!-- Back Button -->
+        <BackButton @click="backButton" />
+
+        <!-- New IDEA -->
+        <PrimaryButton label="End Session" @click="endSession" size="huge" variant="secondary" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -138,12 +145,25 @@ import { useRouter } from "vue-router";
 import VattenfallHeader from "../components/VattenfallHeader.vue";
 import PageTitle from "../components/PageTitle.vue";
 import ChatMessage from "../components/ChatMessage.vue";
+import PrimaryButton from "../components/PrimaryButton.vue";
+import BackButton from "../components/BackButton.vue";
 import { useSelectedPart } from "../composables/useSelectedPart";
 import { useGooeyAPI, type ChatMessage as ChatMessageType } from "../composables/useGooeyAPI";
-
+import { useInactivityTimeout } from "../composables/useInactivityTimeout";
+import botIcon from "../assets/images/boticon.png";
+import fallbackPart from "../assets/images/icon_grid_interface_relay.svg";
 const router = useRouter();
-const { getSelectedParts } = useSelectedPart();
+const { getSelectedParts, clearSelectedParts } = useSelectedPart();
 const { callVideoBotAPI, loading } = useGooeyAPI();
+
+// Inactivity timeout - 120 seconds
+useInactivityTimeout({
+  timeoutSeconds: 120,
+  redirectTo: "/",
+  onTimeout: () => {
+    clearSelectedParts();
+  },
+});
 
 // Get selected parts data from global state
 const selectedParts = computed(() => {
@@ -152,10 +172,10 @@ const selectedParts = computed(() => {
     return [
       {
         id: "default",
-        name: "Turbine Blade",
+        name: "Interface Relay",
         description:
-          "Aerodynamic fiberglass composite blades designed to capture wind energy efficiently",
-        iconSrc: "/src/assets/images/icon-connection.png",
+          "An electrical switch that isolates and controls circuits, allowing low-voltage control signals to safely operate high-power equipment.",
+        iconSrc: fallbackPart,
         tags: ["Fiberglass", "Aerodynamic", "50-80m Length"],
       },
     ];
@@ -243,12 +263,11 @@ const handleButtonClick = async (buttonText: string) => {
   await sendMessage();
 };
 
-const goBack = () => {
-  router.push("/choose");
+const endSession = () => {
+  router.push("/");
 };
 
-const onSubmit = () => {
-  // Navigate to final interaction page
-  router.push("/final");
+const backButton = () => {
+  router.push("/choose");
 };
 </script>

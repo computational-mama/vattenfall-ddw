@@ -12,7 +12,8 @@ export type Difficulty = 'easy' | 'medium' | 'difficult'
 
 // Global state for selected parts and difficulty
 const selectedParts = ref<PartData[]>([])
-const difficulty = ref<Difficulty>('medium')
+const difficulty = ref<Difficulty>('difficult')
+const MAX_PARTS = 3
 
 export const useSelectedPart = () => {
   const setSelectedPart = (part: PartData) => {
@@ -24,19 +25,31 @@ export const useSelectedPart = () => {
   }
 
   const addSelectedPart = (part: PartData) => {
-    const maxParts = difficulty.value === 'easy' ? 1 : difficulty.value === 'medium' ? 2 : 3
-
     const index = selectedParts.value.findIndex(p => p.id === part.id)
     if (index > -1) {
       // Remove if already selected
       selectedParts.value.splice(index, 1)
-    } else if (selectedParts.value.length < maxParts) {
+    } else if (selectedParts.value.length < MAX_PARTS) {
       // Add if under limit
       selectedParts.value.push(part)
     } else {
       // Replace the first (oldest) part when at max limit
       selectedParts.value.shift()
       selectedParts.value.push(part)
+    }
+
+    // Update difficulty based on number of selected parts
+    updateDifficulty()
+  }
+
+  const updateDifficulty = () => {
+    const count = selectedParts.value.length
+    if (count === 1) {
+      difficulty.value = 'easy'
+    } else if (count === 2) {
+      difficulty.value = 'medium'
+    } else if (count === 3) {
+      difficulty.value = 'difficult'
     }
   }
 
@@ -65,6 +78,10 @@ export const useSelectedPart = () => {
     selectedParts.value = []
   }
 
+  const clearSelectedParts = () => {
+    selectedParts.value = []
+  }
+
   return {
     selectedPart: selectedParts,
     setSelectedPart,
@@ -74,6 +91,7 @@ export const useSelectedPart = () => {
     getSelectedParts,
     setDifficulty,
     getDifficulty,
-    clearSelectedPart
+    clearSelectedPart,
+    clearSelectedParts
   }
 }

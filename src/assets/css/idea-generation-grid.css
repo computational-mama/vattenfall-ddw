@@ -2,12 +2,13 @@
 .idea-generation-grid {
   display: grid;
   grid-template-columns: 1fr;
+  /*grid-template-rows: 0.5fr 2fr;*/
   grid-template-rows: auto 1fr;
-  gap: 2rem;
-  height: calc(100vh - 320px); /* Fixed height to prevent overflow */
+  gap: 1rem;
+  height: calc(100vh - 620px); /* Fixed height to prevent overflow */
   max-width: 1400px;
   margin: 0 auto;
-  padding-bottom: 2rem;
+  padding-bottom: 5rem;
   grid-template-areas:
     "part-info"
     "chat-area";
@@ -27,15 +28,13 @@
   overflow: hidden;
 }
 
-.navigation-area {
-  grid-area: navigation;
-}
-
 /* Card styling optimized for vertical layout */
 .idea-card {
   background: white;
   border-radius: 1rem;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
   overflow: hidden;
 }
 
@@ -117,10 +116,10 @@
 .idea-generation-grid h1,
 .idea-generation-grid h2,
 .idea-generation-grid h3 {
-  font-family: 'VattenfallHall', sans-serif;
+  font-family: "VattenfallHall", sans-serif;
 }
 
 .vattenbot-title {
-  font-family: 'VattenfallHall', sans-serif;
+  font-family: "VattenfallHall", sans-serif;
   font-weight: 600;
 }

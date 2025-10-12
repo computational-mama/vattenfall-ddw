@@ -23,13 +23,12 @@
           <p class="text-lg leading-[1.5] text-black font-vattenfall">
             Your idea breathes life back into a<br />decommissioned windmill.
           </p>
-          <PrimaryButton label="Submit another idea" @click="submitAnother" />
         </div>
       </div>
     </div>
 
     <!-- Spacer to push content below fixed header -->
-    <div class="h-[350px]"></div>
+    <div class="h-[300px]"></div>
 
     <!-- Main Content Area -->
     <div class="px-[48px] pb-12">
@@ -52,7 +51,7 @@
             </h3>
             <!-- Part Label -->
             <p class="text-lg leading-[1.5] text-gray-600 font-vattenfall mb-3">
-              Part: Lorem Ipsum
+              {{ selectedPartsLabel }}
             </p>
 
             <!-- Description -->
@@ -134,22 +133,30 @@
         <ImageGallery :ideas="galleryIdeas" :total-ideas="totalIdeas" />
       </div>
     </div>
+    <!-- Fixed Footer -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-[#e5e5e5] z-30">
+      <div class="flex items-center justify-end px-[48px] py-[32px] max-w-[1400px] mx-auto">
+        <!-- New IDEA -->
+        <PrimaryButton label="Submit another idea" @click="submitAnother" size="huge" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, nextTick } from "vue";
 import { useRouter } from "vue-router";
 import VattenfallHeader from "../components/VattenfallHeader.vue";
 import PageTitle from "../components/PageTitle.vue";
-import ImageCard from "../components/ImageCard.vue";
 import PrimaryButton from "../components/PrimaryButton.vue";
+import BackButton from "../components/BackButton.vue";
 import ImageGallery from "../components/ImageGallery.vue";
 import QRCodeDisplay from "../components/QRCodeDisplay.vue";
 import IdeaCounter from "../components/IdeaCounter.vue";
 import type { IdeaData } from "../components/ImageGallery.vue";
 import { useFirebaseData } from "../composables/useFirebaseData";
 import { useSelectedPart } from "../composables/useSelectedPart";
+import { useInactivityTimeout } from "../composables/useInactivityTimeout";
 
 // Import SVG assets
 import dottedSwiggleSmall from "@/assets/images/dottedswiggle-small.svg";
@@ -159,7 +166,16 @@ import windmillIllustration from "@/assets/images/windmill_illustration.svg";
 const router = useRouter();
 const { getLatestConversation, getPreviousConversations, fetchAllConversations } =
   useFirebaseData();
-const { getDifficulty } = useSelectedPart();
+const { getDifficulty, clearSelectedParts, getSelectedParts } = useSelectedPart();
+
+// Inactivity timeout - 60 seconds
+useInactivityTimeout({
+  timeoutSeconds: 60,
+  redirectTo: "/",
+  onTimeout: () => {
+    clearSelectedParts();
+  },
+});
 
 // Get current difficulty
 const currentDifficulty = ref(getDifficulty());
@@ -212,6 +228,15 @@ const latestDescription = computed(() => {
 const latestTags = computed(() => {
   if (!latestConversation.value) return [];
   return latestConversation.value.key_phrases || [];
+});
+
+// Selected parts label
+const selectedPartsLabel = computed(() => {
+  const parts = getSelectedParts();
+  if (parts.length === 0) return "Part: None selected";
+
+  const partNames = parts.map((p) => p.name).join(", ");
+  return parts.length === 1 ? `Part: ${partNames}` : `Parts: ${partNames}`;
 });
 
 // Achievement Card - Dynamic based on difficulty
@@ -274,14 +299,10 @@ const galleryIdeas = computed((): IdeaData[] => {
   }));
 });
 
-const endSession = () => {
-  // Navigate to welcome page
-  router.push("/");
-};
-
-const submitAnother = () => {
-  // Navigate to parts selection
-  router.push("/choose");
+const submitAnother = async () => {
+  //goes to partsview and then refreshed the page
+  await router.push({ path: "/choose" });
+  router.go(0);
 };
 </script>
 

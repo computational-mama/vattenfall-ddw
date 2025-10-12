@@ -42,7 +42,14 @@ export function useFirebaseData() {
         throw new Error('Failed to fetch conversations')
       }
 
-      const data = await response.json()
+      // Check if response has content before parsing
+      const text = await response.text()
+      if (!text || text.trim() === '') {
+        console.warn('Firebase returned empty response')
+        return []
+      }
+
+      const data = JSON.parse(text)
 
       // Convert Firebase object to array with timestamps, filtering out incomplete entries
       const conversations: FirebaseConversation[] = []
@@ -65,7 +72,13 @@ export function useFirebaseData() {
 
       return conversations
     } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Unknown error'
+      if (err instanceof SyntaxError) {
+        console.error('JSON parsing error:', err)
+        error.value = 'Invalid response from server'
+      } else {
+        error.value = err instanceof Error ? err.message : 'Unknown error'
+      }
+      console.error('Error fetching conversations:', err)
       return []
     } finally {
       loading.value = false

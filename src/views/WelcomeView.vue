@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="min-h-screen bg-white flex flex-col relative overflow-hidden"
-  >
+  <div class="min-h-screen bg-white flex flex-col relative overflow-hidden">
     <!-- Logo -->
     <div class="absolute left-1/2 -translate-x-1/2 top-[48px] w-[231px] h-[77px] z-20">
       <VattenfallLogo variant="linear-grey" size="large" />
@@ -29,7 +27,9 @@
     </div>
 
     <!-- Bottom Section -->
-    <div class="absolute bottom-[48px] left-1/2 -translate-x-1/2 w-[984px] h-[200px] flex items-center justify-between py-[40px] z-20">
+    <div
+      class="absolute bottom-[48px] left-1/2 -translate-x-1/2 w-[984px] h-[200px] flex items-center justify-between py-[40px] z-20"
+    >
       <IdeaCounter :idea-count="ideaCount" />
     </div>
   </div>

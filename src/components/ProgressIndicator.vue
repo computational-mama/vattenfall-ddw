@@ -3,15 +3,11 @@
     <div
       v-for="step in totalSteps"
       :key="step"
-      class="h-[12px] rounded-[99999px] transition-all duration-500 flex-1 relative overflow-hidden"
-      :class="[
-        step === currentStep ? 'bg-[#edf1f6]' : 'bg-[#edf1f6]'
-      ]"
+      class="h-[12px] rounded-[99999px] flex-1 relative overflow-hidden bg-[#edf1f6]"
     >
       <div
         v-if="step === currentStep"
-        class="absolute left-0 top-0 h-full bg-[#2071b5] rounded-[99999px]"
-        :style="{ width: '130px' }"
+        class="absolute left-0 top-0 h-full bg-[#2071b5] rounded-[99999px] animate-fill"
       />
     </div>
   </div>
@@ -27,3 +23,18 @@ withDefaults(defineProps<Props>(), {
   totalSteps: 3
 })
 </script>
+
+<style scoped>
+@keyframes fill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.animate-fill {
+  animation: fill 2s ease-out forwards;
+}
+</style>

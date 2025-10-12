@@ -4,18 +4,24 @@
       :class="[
         'max-w-[80%] rounded-2xl p-8',
         message.role === 'user'
-          ? 'bg-[#396fb0] text-white'
-          : 'bg-white border border-gray-200 text-gray-800',
+          ? 'bg-[#EDF9F3] text-gray-800'
+          : 'bg-[#D2E3F0]/25 border border-gray-200 text-gray-800',
       ]"
     >
       <!-- Vattenbot header for assistant messages -->
       <div v-if="message.role === 'assistant'" class="flex items-center gap-2 mb-2">
-        <div class="w-6 h-6 bg-[#196db9] rounded-full flex items-center justify-center">
-          <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
-          </svg>
+        <div class="w-6 h-6 bg-black rounded-full flex items-center justify-center">
+          <img :src="botIcon" alt="Vattenbot Icon" class="text-white" />
         </div>
-        <span class="text-md font-semibold text-gray-700 font-vattenfall">Vattenbot</span>
+        <span class="text-xl font-bold text-gray-700 font-vattenfall">Vattenbot</span>
+      </div>
+
+      <!-- User header for user messages -->
+      <div v-if="message.role === 'user'" class="flex items-center gap-2 mb-2">
+        <!-- <div class="w-6 h-6 bg-black rounded-full flex items-center justify-center">
+          <img :src="botIcon" alt="Vattenbot Icon" class="text-white" />
+        </div> -->
+        <span class="text-xl font-bold text-gray-700 font-vattenfall">You</span>
       </div>
 
       <!-- Message content -->
@@ -27,7 +33,7 @@
           v-for="(btn, index) in parsedButtons"
           :key="index"
           @click="handleButtonClick(btn.text)"
-          class="w-full flex items-center justify-between px-4 py-8 bg-white border-2 border-[#396fb0] text-[#396fb0] rounded-xl hover:bg-[#396fb0] hover:text-white transition-all font-vattenfall font-medium text-left"
+          class="w-full flex items-center justify-between px-4 py-8 bg-white border-2 border-[#396fb0]/20 text-[#396fb0] rounded-xl hover:bg-[#396fb0] hover:text-white transition-all font-vattenfall font-medium text-left"
         >
           <span>{{ btn.text }}</span>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -48,6 +54,7 @@
 import { computed } from "vue";
 import { useRouter } from "vue-router";
 import type { ChatMessage as ChatMessageType } from "../composables/useGooeyAPI";
+import botIcon from "../assets/images/boticon.png";
 
 interface Props {
   message: ChatMessageType;

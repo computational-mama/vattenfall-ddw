@@ -7,7 +7,7 @@ export interface PartData {
   name: string;
   description: string;
   iconSrc: string;
-  priority: 1 | 2 | 3 | 4; // 1 = largest, 4 = smallest
+  priority: 1 | 2; // 1 = big (2x height), 2 = small (1x height)
   tags?: string[];
 }
 
@@ -54,7 +54,7 @@ function parseCSV(csv: string): PartData[] {
     if (seenIds.has(id)) continue;
     seenIds.add(id);
 
-    const priority = parseInt(values[4]) as 1 | 2 | 3 | 4;
+    const priority = parseInt(values[4]) as 1 | 2;
 
     data.push({
       id: id,

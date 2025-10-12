@@ -67,13 +67,13 @@ const sizeClass = computed(() => {
 
 const variantClass = computed(() => {
   if (props.disabled) {
-    return "bg-gray-300 text-gray-500";
+    return "bg-[#e5e5e5] text-[#a0a0a0] cursor-not-allowed";
   }
 
   const variants = {
     primary:
-      "font-vattenfall bg-[#ffda00] text-black border-[1.25px] border-solid border-[#ffda00] hover:bg-[#ffd700]",
-    secondary: "font-vattenfall bg-gray-300 text-gray-700 hover:bg-gray-400",
+      "font-vattenfall bg-[#ffda00] text-black border-[1.25px] border-solid border-[#ffda00]",
+    secondary: "font-vattenfall border-1 border-[#2071B5] text-[#2071B5]",
   };
   return variants[props.variant];
 });
