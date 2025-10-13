@@ -3,7 +3,11 @@
     <header class="flex items-center justify-between">
       <!-- Vattenfall Logo -->
       <div class="flex items-center">
-        <img src="/src/assets/logos/vattenfall-logo.png" alt="Vattenfall" class="h-18 w-auto" />
+        <img
+          src="/src/assets/logos/VF_logo_linear_grey_RGB.png"
+          alt="Vattenfall"
+          class="h-18 w-auto"
+        />
       </div>
     </header>
   </div>
