@@ -38,6 +38,8 @@ export const useGooeyAPI = () => {
   const loading = ref(false);
   const error = ref<string | null>(null);
   const messages = ref<ChatMessage[]>([]);
+  const streamingText = ref("");
+  const isStreaming = ref(false);
 
   const callVideoBotAPI = async (
     inputPrompt: string,
@@ -86,6 +88,30 @@ export const useGooeyAPI = () => {
     messages.value = [];
   };
 
+  // Simulate streaming text effect
+  const streamText = async (
+    fullText: string,
+    onChunk: (chunk: string) => void,
+    delayMs: number = 20,
+  ): Promise<void> => {
+    isStreaming.value = true;
+    streamingText.value = "";
+
+    // Stream word by word for better performance and readability
+    const words = fullText.split(" ");
+
+    for (let i = 0; i < words.length; i++) {
+      const word = words[i];
+      streamingText.value += (i > 0 ? " " : "") + word;
+      onChunk(streamingText.value);
+
+      // Add a small delay between words
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+    }
+
+    isStreaming.value = false;
+  };
+
   // Legacy method for backwards compatibility
   const callGooeyAPI = async (inputPrompt: string): Promise<GooeyAPIResponse> => {
     loading.value = true;
@@ -126,8 +152,11 @@ export const useGooeyAPI = () => {
     callGooeyAPI,
     callVideoBotAPI,
     resetConversation,
+    streamText,
     messages,
     loading,
     error,
+    streamingText,
+    isStreaming,
   };
 };
