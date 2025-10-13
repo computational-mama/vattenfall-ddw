@@ -3,9 +3,7 @@
     <div
       :class="[
         'max-w-[80%] rounded-2xl p-8',
-        message.role === 'user'
-          ? 'bg-[#EDF9F3] text-gray-800'
-          : 'bg-[#D2E3F0]/25 border border-gray-200 text-gray-800',
+        message.role === 'user' ? 'text-[#333333]' : ' text-[#33333]',
       ]"
     >
       <!-- Vattenbot header for assistant messages -->
@@ -13,7 +11,7 @@
         <div class="w-6 h-6 bg-black rounded-full flex items-center justify-center">
           <img :src="botIcon" alt="Vattenbot Icon" class="text-white" />
         </div>
-        <span class="text-xl font-bold text-gray-700 font-vattenfall">Vattenbot</span>
+        <span class="text-xl font-bold text-[#333333] font-vattenfall">Vattenbot</span>
       </div>
 
       <!-- User header for user messages -->
@@ -25,7 +23,13 @@
       </div>
 
       <!-- Message content -->
-      <div class="font-vattenfall leading-relaxed text-md" v-html="parsedContent"></div>
+      <div
+        :class="[
+          'font-vattenfall leading-relaxed text-md',
+          message.role === 'user' ? 'bg-[#EDF9F3] text-[#333333] p-8 rounded-xl' : ' text-[#33333]',
+        ]"
+        v-html="parsedContent"
+      ></div>
 
       <!-- Interactive buttons -->
       <div v-if="parsedButtons.length > 0" class="mt-4 space-y-2 text-md">
@@ -33,7 +37,7 @@
           v-for="(btn, index) in parsedButtons"
           :key="index"
           @click="handleButtonClick(btn.text)"
-          class="w-full flex items-center justify-between px-4 py-8 bg-white border-2 border-[#396fb0]/20 text-[#396fb0] rounded-xl hover:bg-[#396fb0] hover:text-white transition-all font-vattenfall font-medium text-left"
+          class="w-full flex items-center justify-between px-4 py-8 bg-white border-2 border-[#2071B5]/20 text-[#2071B5] rounded-xl hover:bg-[#2071B5] hover:text-white transition-all font-vattenfall font-medium text-left"
         >
           <span>{{ btn.text }}</span>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

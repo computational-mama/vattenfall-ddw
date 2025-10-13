@@ -26,7 +26,7 @@
                 <!-- Single column layout for card -->
                 <div class="flex flex-col items-center">
                   <!-- Part Image/Icon - Top -->
-                  <div class="w-32 h-32 rounded-t-xl flex items-center justify-center p-2">
+                  <div class="w-32 h-32 rounded-t-xl flex items-center justify-center p-2 mt-4">
                     <img
                       :src="part.iconSrc"
                       :alt="part.name"
@@ -36,13 +36,12 @@
 
                   <!-- Part Details - Bottom -->
                   <div class="py-3 px-4">
-                    <h3
-                      class="font-bold mb-2 font-vattenfall text-xl text-center"
-                      style="color: #2071b5"
-                    >
+                    <h3 class="font-bold mb-2 font-vattenfall text-xl text-[#2071b5]">
                       {{ part.name }}
                     </h3>
-                    <p class="text-gray-600 leading-relaxed font-vattenfall text-xs px-4">
+                    <p
+                      class="text-[#333333] leading-relaxed font-vattenfall font-medium text-xs pb-2"
+                    >
                       {{ part.description }}
                     </p>
                   </div>
@@ -74,7 +73,7 @@
               />
 
               <!-- Loading indicator -->
-              <div v-if="loading" class="flex justify-start mb-4">
+              <div v-if="loading || isStreaming" class="flex justify-start mb-4">
                 <div class="bg-white border-[1.5px] border-[#d1d1d6] rounded-2xl px-5 py-3">
                   <div class="flex items-center gap-2">
                     <div
@@ -113,7 +112,7 @@
                 <!-- Send Button -->
                 <button
                   @click="sendMessage"
-                  :disabled="!userInput.trim() || loading"
+                  :disabled="!userInput.trim() || loading || isStreaming"
                   class="w-18 h-18 flex bg-[#f5f5f5] items-center justify-center text-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 hover:bg-gray-200 rounded-full"
                 >
                   <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
@@ -133,7 +132,7 @@
         <BackButton @click="backButton" />
 
         <!-- New IDEA -->
-        <PrimaryButton label="End Session" @click="endSession" size="huge" variant="secondary" />
+        <PrimaryButton label="End Session" @click="endSession" size="small" variant="secondary" />
       </div>
     </div>
   </div>
@@ -154,15 +153,13 @@ import botIcon from "../assets/images/boticon.png";
 import fallbackPart from "../assets/images/icon_grid_interface_relay.svg";
 const router = useRouter();
 const { getSelectedParts, clearSelectedParts } = useSelectedPart();
-const { callVideoBotAPI, loading } = useGooeyAPI();
+const { callVideoBotAPI, loading, streamText, isStreaming } = useGooeyAPI();
 
 // Inactivity timeout - 120 seconds
+// Note: clearSelectedParts() is handled by router guard, no need to call it here
 useInactivityTimeout({
   timeoutSeconds: 120,
   redirectTo: "/",
-  onTimeout: () => {
-    clearSelectedParts();
-  },
 });
 
 // Get selected parts data from global state
@@ -204,9 +201,9 @@ const scrollToBottom = async () => {
   }
 };
 
-// Watch for changes in chat messages and loading state
+// Watch for changes in chat messages, loading state, and streaming state
 watch(
-  [chatMessages, loading],
+  [chatMessages, loading, isStreaming],
   () => {
     scrollToBottom();
   },
@@ -224,9 +221,18 @@ const sendInitialMessage = async (partsNames: string) => {
     const response = await callVideoBotAPI(partsNames, []);
 
     if (response.output?.output_text && response.output.output_text.length > 0) {
+      const fullText = response.output.output_text[0];
+
+      // Add placeholder message that will be updated
+      const messageIndex = chatMessages.value.length;
       chatMessages.value.push({
         role: "assistant",
-        content: response.output.output_text[0],
+        content: "",
+      });
+
+      // Stream the text gradually
+      await streamText(fullText, (currentText) => {
+        chatMessages.value[messageIndex].content = currentText;
       });
     }
   } catch (error) {
@@ -235,7 +241,7 @@ const sendInitialMessage = async (partsNames: string) => {
 };
 
 const sendMessage = async () => {
-  if (!userInput.value.trim() || loading.value) return;
+  if (!userInput.value.trim() || loading.value || isStreaming.value) return;
 
   const message = userInput.value.trim();
 
@@ -251,9 +257,18 @@ const sendMessage = async () => {
     const response = await callVideoBotAPI(message, chatMessages.value);
 
     if (response.output?.output_text && response.output.output_text.length > 0) {
+      const fullText = response.output.output_text[0];
+
+      // Add placeholder message that will be updated
+      const messageIndex = chatMessages.value.length;
       chatMessages.value.push({
         role: "assistant",
-        content: response.output.output_text[0],
+        content: "",
+      });
+
+      // Stream the text gradually
+      await streamText(fullText, (currentText) => {
+        chatMessages.value[messageIndex].content = currentText;
       });
     }
   } catch (error) {

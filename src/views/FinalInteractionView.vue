@@ -168,13 +168,11 @@ const { getLatestConversation, getPreviousConversations, fetchAllConversations }
   useFirebaseData();
 const { getDifficulty, clearSelectedParts, getSelectedParts } = useSelectedPart();
 
-// Inactivity timeout - 60 seconds
+// Inactivity timeout - 120 seconds
+// Note: clearSelectedParts() is handled by router guard, no need to call it here
 useInactivityTimeout({
-  timeoutSeconds: 60,
+  timeoutSeconds: 120,
   redirectTo: "/",
-  onTimeout: () => {
-    clearSelectedParts();
-  },
 });
 
 // Get current difficulty

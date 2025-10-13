@@ -18,14 +18,15 @@ export function useInactivityTimeout(config: TimeoutConfig) {
     }
 
     // Start new timer
-    timeoutId = window.setTimeout(() => {
+    timeoutId = window.setTimeout(async () => {
       // Call optional cleanup callback
       if (config.onTimeout) {
         config.onTimeout();
       }
 
-      // Redirect to specified route
-      router.push(config.redirectTo);
+      // Redirect to specified route and force page refresh
+      await router.push(config.redirectTo);
+      router.go(0);
     }, config.timeoutSeconds * 1000);
   };
 

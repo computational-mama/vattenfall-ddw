@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-start justify-between mb-[48px]">
-    <h1 class="text-[48px] leading-[1.2] font-vattenfall-display font-bold text-black">
+    <h1 class="text-[53px] leading-[1.2] font-vattenfall-display font-bold text-black">
       {{ title }}
     </h1>
   </div>

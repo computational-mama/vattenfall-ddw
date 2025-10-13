@@ -2,7 +2,7 @@
   <button
     :disabled="disabled"
     :class="[
-      'font-vattenfall font-medium rounded-full transition-colors duration-200',
+      'font-vattenfall font-regular rounded-full transition-colors duration-200',
       sizeClass,
       variantClass,
       disabled ? 'cursor-not-allowed opacity-50' : '',
@@ -60,7 +60,7 @@ const sizeClass = computed(() => {
     small: "text-base px-6 py-4",
     medium: "text-xl px-8 py-6",
     large: "text-2xl px-10 py-7",
-    huge: "text-[28px] px-[80px] py-[24px] h-[90px]",
+    huge: "text-[28px] px-[140px] py-[24px] h-[90px]",
   };
   return sizes[props.size];
 });

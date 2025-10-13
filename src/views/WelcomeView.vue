@@ -50,9 +50,17 @@ const { fetchAllConversations } = useFirebaseData();
 const ideaCount = ref(0);
 
 onMounted(async () => {
-  const allConversations = await fetchAllConversations();
-  ideaCount.value = allConversations.length;
-  startCarousel();
+  try {
+    const allConversations = await fetchAllConversations();
+    ideaCount.value = allConversations.length;
+  } catch (error) {
+    console.error("Failed to fetch conversations:", error);
+    // Keep ideaCount at 0 if fetch fails
+    ideaCount.value = 0;
+  } finally {
+    // Always start carousel regardless of fetch result
+    startCarousel();
+  }
 });
 
 // Carousel content for each slide
@@ -88,7 +96,7 @@ const carouselInterval = ref<number | null>(null);
 const startCarousel = () => {
   carouselInterval.value = window.setInterval(() => {
     currentImageIndex.value = (currentImageIndex.value + 1) % 3;
-  }, 2000);
+  }, 6000);
 };
 
 const stopCarousel = () => {

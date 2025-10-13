@@ -60,11 +60,11 @@
               v-for="(part, index) in sortedParts.filter((_, i) => i % 3 === 0)"
               :key="part.id"
               :class="[
-                'bg-[#F9F9F9] border-[#2071B5] border-2 rounded-xl p-4 cursor-pointer transition-all',
+                'bg-[#F9F9F9] border-[#2071B580] border-1 rounded-xl p-4 cursor-pointer transition-all',
                 'flex flex-col items-center justify-center relative',
 
                 {
-                  'bg-[rgba(57,111,176,0.15)] border-[#396fb0] border-4 shadow-lg scale-[1.02]':
+                  'bg-[rgba(57,111,176,0.15)] border-[#2071B5] border-4 shadow-lg scale-[1.02]':
                     isPartSelected(part.id),
                 },
               ]"
@@ -103,12 +103,12 @@
                 </div>
                 <div class="px-2 flex flex-col">
                   <!-- Part Name -->
-                  <h3 class="text-[#3752a4] font-medium font-vattenfall mb-2 text-xl">
+                  <h3 class="text-[#2071B5] font-bold font-vattenfall mb-2 text-xl">
                     {{ part.name }}
                   </h3>
 
                   <!-- Description -->
-                  <p class="text-[#696977] opacity-70 font-vattenfall leading-relaxed text-sm pb-4">
+                  <p class="text-[#333333] font-vattenfall leading-relaxed text-sm pb-4">
                     {{ part.description }}
                   </p>
                 </div>
@@ -122,7 +122,7 @@
               v-for="(part, index) in sortedParts.filter((_, i) => i % 3 === 1)"
               :key="part.id"
               :class="[
-                'bg-[#F9F9F9] border-[#2071B5] border-2 rounded-xl p-4 cursor-pointer transition-all',
+                'bg-[#F9F9F9] border-[#2071B580] border-1 rounded-xl p-4 cursor-pointer transition-all',
                 'flex flex-col items-center justify-center relative',
                 {
                   'bg-[rgba(57,111,176,0.15)] border-[#396fb0] border-4 shadow-lg scale-[1.02]':
@@ -164,12 +164,12 @@
                 </div>
                 <div class="px-2 flex flex-col">
                   <!-- Part Name -->
-                  <h3 class="text-[#3752a4] font-medium font-vattenfall mb-2 text-xl">
+                  <h3 class="text-[#2071B5] font-bold font-vattenfall mb-2 text-xl">
                     {{ part.name }}
                   </h3>
 
                   <!-- Description -->
-                  <p class="text-[#696977] opacity-70 font-vattenfall leading-relaxed text-sm pb-4">
+                  <p class="text-[#333333] font-vattenfall leading-relaxed text-sm pb-4">
                     {{ part.description }}
                   </p>
                 </div>
@@ -183,7 +183,7 @@
               v-for="(part, index) in sortedParts.filter((_, i) => i % 3 === 2)"
               :key="part.id"
               :class="[
-                'bg-[#F9F9F9] border-[#2071B5] border-2 rounded-xl p-4 cursor-pointer transition-all',
+                'bg-[#F9F9F9] border-[#2071B580] border-1 rounded-xl p-4 cursor-pointer transition-all',
                 'flex flex-col items-center justify-center relative',
                 {
                   'bg-[rgba(57,111,176,0.15)] border-[#396fb0] border-4 shadow-lg scale-[1.02]':
@@ -226,12 +226,12 @@
                 </div>
                 <div class="px-2 flex flex-col">
                   <!-- Part Name -->
-                  <h3 class="text-[#3752a4] font-medium font-vattenfall mb-2 text-xl">
+                  <h3 class="text-[#2071B5] font-bold font-vattenfall mb-2 text-xl">
                     {{ part.name }}
                   </h3>
 
                   <!-- Description -->
-                  <p class="text-[#696977] opacity-70 font-vattenfall leading-relaxed text-sm pb-4">
+                  <p class="text-[#333333] font-vattenfall leading-relaxed text-sm pb-4">
                     {{ part.description }}
                   </p>
                 </div>
@@ -297,12 +297,10 @@ const router = useRouter();
 const { addSelectedPart, getSelectedParts, clearSelectedParts } = useSelectedPart();
 
 // Inactivity timeout - 90 seconds
+// Note: clearSelectedParts() is handled by router guard, no need to call it here
 useInactivityTimeout({
   timeoutSeconds: 90,
   redirectTo: "/",
-  onTimeout: () => {
-    clearSelectedParts();
-  },
 });
 
 const MAX_PARTS = 3;
