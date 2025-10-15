@@ -54,7 +54,7 @@ export const useGooeyAPI = () => {
     };
 
     try {
-      const response = await fetch("https://api.gooey.ai/v2/video-bots?example_id=dma60z29q7ru", {
+      const response = await fetch("https://api.gooey.ai/v2/video-bots?example_id=pf7zxtcpv8j3", {
         method: "POST",
         headers: {
           Authorization: `bearer ${import.meta.env.VITE_GOOEY_API_KEY}`,
