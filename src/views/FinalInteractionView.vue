@@ -16,7 +16,7 @@
       <VattenfallHeader title="" />
 
       <div class="px-[48px] pb-6">
-        <PageTitle title="Thank for sharing" :show-close="true" close-route="/" />
+        <PageTitle title="Thanks for sharing" :show-close="true" close-route="/" />
 
         <!-- Subtitle with Button -->
         <div class="flex items-center justify-between -mt-6">
@@ -43,7 +43,7 @@
               :alt="latestTitle"
               class="w-full h-full object-contain rounded-md"
             />
-            <p class="text-sm">AI Image created with Vattenfall Rewind (DDW25)</p>
+            <!-- <p class="text-sm">AI Image created with Vattenfall Rewind (DDW25)</p> -->
             <!-- Title -->
             <h3
               class="text-2xl leading-[1.3] capitalize font-vattenfall font-semibold text-[#2071b5] mb-2"
