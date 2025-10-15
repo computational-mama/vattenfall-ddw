@@ -32,23 +32,41 @@
       ></div>
 
       <!-- Interactive buttons -->
-      <div v-if="parsedButtons.length > 0" class="mt-4 space-y-2 text-md">
-        <button
-          v-for="(btn, index) in parsedButtons"
-          :key="index"
-          @click="handleButtonClick(btn.text)"
-          class="w-full flex items-center justify-between px-4 py-8 bg-white border-2 border-[#2071B5]/20 text-[#2071B5] rounded-xl hover:bg-[#2071B5] hover:text-white transition-all font-vattenfall font-medium text-left"
+      <div v-if="parsedButtons.length > 0" class="mt-4">
+        <!-- Regular buttons - original stacked layout -->
+        <div class="space-y-2 mb-4">
+          <button
+            v-for="(btn, index) in parsedButtons.filter((b) => !isPrimaryActionButton(b.text))"
+            :key="'regular-' + index"
+            @click="handleButtonClick(btn.text)"
+            class="w-full flex items-center justify-between px-4 py-8 bg-white border-2 border-[#2071B5]/20 text-[#2071B5] rounded-xl hover:bg-[#2071B5] hover:text-white transition-all font-vattenfall font-medium text-left"
+          >
+            <span>{{ btn.text }}</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Primary action buttons (Sketch/Save) - centered horizontal layout at bottom -->
+        <div
+          v-if="parsedButtons.some((btn) => isPrimaryActionButton(btn.text))"
+          class="flex gap-4 justify-self-stretch w-full"
         >
-          <span>{{ btn.text }}</span>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </button>
+          <PrimaryButton
+            v-for="(btn, index) in parsedButtons.filter((b) => isPrimaryActionButton(b.text))"
+            :key="'primary-' + index"
+            :label="btn.text"
+            size="chat"
+            variant="primary"
+            @click="handleButtonClick(btn.text)"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -59,6 +77,7 @@ import { computed } from "vue";
 import { useRouter } from "vue-router";
 import type { ChatMessage as ChatMessageType } from "../composables/useGooeyAPI";
 import botIcon from "../assets/images/boticon.png";
+import PrimaryButton from "./PrimaryButton.vue";
 
 interface Props {
   message: ChatMessageType;
@@ -75,12 +94,24 @@ const emit = defineEmits<{
 const props = defineProps<Props>();
 const router = useRouter();
 
-// Handle button click with special case for "done" button
+// Check if a button is a primary action button
+const isPrimaryActionButton = (buttonText: string): boolean => {
+  const primaryButtons = ["Sketch the idea", "Save my idea", "Thanks I'm done"];
+  return primaryButtons.some((primaryBtn) => buttonText.includes(primaryBtn));
+};
+
+// Handle button click with special cases
 const handleButtonClick = (buttonText: string) => {
   // Check if this is the "Thanks I'm done" button
   if (buttonText.includes("Thanks") && buttonText.includes("done")) {
     // Navigate to final view
     router.push("/final");
+  } else if (buttonText.includes("Sketch the idea")) {
+    // Handle sketch action - emit with special flag or handle directly
+    emit("button-click", buttonText);
+  } else if (buttonText.includes("Save the idea")) {
+    // Handle save action - emit with special flag or handle directly
+    emit("button-click", buttonText);
   } else {
     // Emit normal button click event
     emit("button-click", buttonText);

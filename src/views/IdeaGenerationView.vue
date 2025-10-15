@@ -347,7 +347,15 @@ const sendMessage = async () => {
 };
 
 const handleButtonClick = async (buttonText: string) => {
-  await sendMessage();
+  // Set appropriate loading phrase type based on button
+  if (buttonText.includes("Sketch the idea")) {
+    currentActionType.value = "sketch";
+  } else if (buttonText.includes("Save the idea")) {
+    currentActionType.value = "save";
+  } else {
+    currentActionType.value = "general";
+  }
+
   userInput.value = buttonText;
   await sendMessage();
 };

@@ -38,7 +38,7 @@ import { computed } from "vue";
 
 interface Props {
   label: string;
-  size?: "small" | "medium" | "large" | "huge";
+  size?: "small" | "medium" | "large" | "huge" | "chat";
   variant?: "primary" | "secondary";
   disabled?: boolean;
   iconPosition?: "left" | "right" | "none";
@@ -61,6 +61,7 @@ const sizeClass = computed(() => {
     medium: "text-xl px-8 py-6",
     large: "text-2xl px-10 py-7",
     huge: "text-[28px] px-[140px] py-[24px] h-[90px]",
+    chat: "text-2xl px-10 py-7 w-full text-center justify-center",
   };
   return sizes[props.size];
 });
