@@ -26,7 +26,7 @@ export function useInactivityTimeout(config: TimeoutConfig) {
 
       // Redirect to specified route and force page refresh
       await router.push(config.redirectTo);
-      router.go(0);
+      window.location.reload();
     }, config.timeoutSeconds * 1000);
   };
 

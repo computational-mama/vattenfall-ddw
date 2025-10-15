@@ -299,9 +299,9 @@ const galleryIdeas = computed((): IdeaData[] => {
 });
 
 const submitAnother = async () => {
-  //goes to partsview and then refreshed the page
+  //goes to partsview and then refreshes the page
   await router.push({ path: "/choose" });
-  router.go(0);
+  window.location.reload();
 };
 </script>
 
