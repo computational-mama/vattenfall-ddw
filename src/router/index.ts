@@ -4,6 +4,7 @@ import PartsView from "../views/PartsView.vue";
 import IdeaGenerationView from "../views/IdeaGenerationView.vue";
 import FinalInteractionView from "../views/FinalInteractionView.vue";
 import IdeaDetailView from "../views/IdeaDetailView.vue";
+import AllIdeasView from "../views/AllIdeasView.vue";
 import { useSelectedPart } from "../composables/useSelectedPart";
 
 const router = createRouter({
@@ -33,6 +34,11 @@ const router = createRouter({
       path: "/idea/:id",
       name: "idea-detail",
       component: IdeaDetailView,
+    },
+    {
+      path: "/allideas",
+      name: "all-ideas",
+      component: AllIdeasView,
     },
   ],
 });

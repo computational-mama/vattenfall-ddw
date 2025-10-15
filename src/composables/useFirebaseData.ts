@@ -32,6 +32,23 @@ export function useFirebaseData() {
     )
   }
 
+  // Helper function to decode Firebase push key to timestamp
+  const decodeFirebaseKey = (key: string): number => {
+    // Firebase push keys are base64-encoded timestamps
+    // First 8 characters represent the timestamp
+    const PUSH_CHARS = '-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz'
+
+    let timestamp = 0
+    const id = key.substring(0, 8)
+
+    for (let i = 0; i < id.length; i++) {
+      const char = id.charAt(i)
+      timestamp = timestamp * 64 + PUSH_CHARS.indexOf(char)
+    }
+
+    return timestamp
+  }
+
   const fetchAllConversations = async (): Promise<FirebaseConversation[]> => {
     loading.value = true
     error.value = null
@@ -57,18 +74,20 @@ export function useFirebaseData() {
       if (data) {
         Object.entries(data).forEach(([key, value]: [string, any]) => {
           if (isValidConversation(value)) {
+            // Use stored timestamp, or decode from Firebase key, or fall back to current time
+            const timestamp = value.timestamp || decodeFirebaseKey(key) || Date.now()
+
             conversations.push({
               ...value,
-              timestamp: value.timestamp || Date.now(),
+              timestamp,
               firebaseKey: key
             })
           }
         })
       }
 
-      // Sort by Firebase key (newest first - Firebase keys are chronological)
-      // Reverse to get newest first
-      conversations.reverse()
+      // Sort by timestamp (newest first)
+      conversations.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0))
 
       return conversations
     } catch (err) {
