@@ -51,7 +51,8 @@
 
           <p class="text-base md:text-lg text-gray-700 font-vattenfall leading-relaxed mt-4">
             Here's the visual representation of your idea, generated through our campaign. Download
-            and share it — your creativity helps shape a better future.
+            and share it — your creativity helps shape a better future. To re-share the idea on
+            Social Media use the following hashtags #Rewind #DDW25 #circulardesign #Vattenfall
           </p>
         </div>
 

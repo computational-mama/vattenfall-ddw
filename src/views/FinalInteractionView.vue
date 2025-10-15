@@ -16,12 +16,12 @@
       <VattenfallHeader title="" />
 
       <div class="px-[48px] pb-6">
-        <PageTitle title="Thank you for participating!" :show-close="true" close-route="/" />
+        <PageTitle title="Thank for sharing" :show-close="true" close-route="/" />
 
         <!-- Subtitle with Button -->
         <div class="flex items-center justify-between -mt-6">
           <p class="text-lg leading-[1.5] text-black font-vattenfall">
-            Your idea breathes life back into a<br />decommissioned windmill.
+            Your idea breathes new life into a<br />retired wind turbine.
           </p>
         </div>
       </div>
@@ -43,6 +43,7 @@
               :alt="latestTitle"
               class="w-full h-full object-contain rounded-md"
             />
+            <p class="text-sm">AI Image created with Vattenfall Rewind (DDW25)</p>
             <!-- Title -->
             <h3
               class="text-2xl leading-[1.3] capitalize font-vattenfall font-semibold text-[#2071b5] mb-2"

@@ -5,7 +5,7 @@
     <!-- Main Content Area with Grid Layout -->
     <div class="px-8 pb-12 relative">
       <PageTitle
-        title="Co-create your idea with Vattenbot"
+        title="Rewind is here to co-create with you"
         :show-close="true"
         close-route="/choose"
       />
@@ -73,7 +73,7 @@
               />
 
               <!-- Loading indicator -->
-              <div v-if="loading || isStreaming" class="flex justify-start mb-4">
+              <div v-if="loading || isStreaming" class="flex flex-col items-start mb-4">
                 <div class="bg-white border-[1.5px] border-[#d1d1d6] rounded-2xl px-5 py-3">
                   <div class="flex items-center gap-2">
                     <div
@@ -90,6 +90,13 @@
                     ></div>
                   </div>
                 </div>
+                <!-- Loading phrase -->
+                <p
+                  v-if="currentLoadingPhrase"
+                  class="mt-2 ml-2 text-sm font-vattenfall text-gray-400 italic"
+                >
+                  {{ currentLoadingPhrase }}
+                </p>
               </div>
             </div>
 
@@ -139,7 +146,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, nextTick, watch } from "vue";
+import { computed, ref, onMounted, onUnmounted, nextTick, watch } from "vue";
 import { useRouter } from "vue-router";
 import VattenfallHeader from "../components/VattenfallHeader.vue";
 import PageTitle from "../components/PageTitle.vue";
@@ -149,6 +156,11 @@ import BackButton from "../components/BackButton.vue";
 import { useSelectedPart } from "../composables/useSelectedPart";
 import { useGooeyAPI, type ChatMessage as ChatMessageType } from "../composables/useGooeyAPI";
 import { useInactivityTimeout } from "../composables/useInactivityTimeout";
+import {
+  generalLoadingPhrases,
+  sketchLoadingPhrases,
+  saveLoadingPhrases,
+} from "../data/loadingPhrases";
 import botIcon from "../assets/images/boticon.png";
 import fallbackPart from "../assets/images/icon_grid_interface_relay.svg";
 const router = useRouter();
@@ -185,6 +197,60 @@ const chatMessages = ref<ChatMessageType[]>([]);
 const userInput = ref("");
 const chatMessagesContainer = ref<HTMLElement | null>(null);
 const inputField = ref<HTMLInputElement | null>(null);
+
+// Loading phrases state
+const currentLoadingPhrase = ref("");
+const loadingPhraseIndex = ref(0);
+const loadingPhraseInterval = ref<number | null>(null);
+const currentActionType = ref<"general" | "sketch" | "save">("general");
+
+// Start cycling through loading phrases
+const startLoadingPhrases = (actionType: "general" | "sketch" | "save" = "general") => {
+  currentActionType.value = actionType;
+  loadingPhraseIndex.value = 0;
+
+  // Get the appropriate phrase array
+  const phrases =
+    actionType === "sketch"
+      ? sketchLoadingPhrases
+      : actionType === "save"
+        ? saveLoadingPhrases
+        : generalLoadingPhrases;
+
+  // Set initial phrase
+  currentLoadingPhrase.value = phrases[0];
+
+  // Clear any existing interval
+  if (loadingPhraseInterval.value !== null) {
+    clearInterval(loadingPhraseInterval.value);
+  }
+
+  // Cycle through phrases every 2 seconds
+  loadingPhraseInterval.value = window.setInterval(() => {
+    loadingPhraseIndex.value = (loadingPhraseIndex.value + 1) % phrases.length;
+    currentLoadingPhrase.value = phrases[loadingPhraseIndex.value];
+  }, 2000);
+};
+
+// Stop cycling loading phrases
+const stopLoadingPhrases = () => {
+  if (loadingPhraseInterval.value !== null) {
+    clearInterval(loadingPhraseInterval.value);
+    loadingPhraseInterval.value = null;
+  }
+  currentLoadingPhrase.value = "";
+};
+
+// Watch loading state to control phrase cycling
+watch([loading, isStreaming], ([isLoading, streaming]) => {
+  if (isLoading || streaming) {
+    if (!loadingPhraseInterval.value) {
+      startLoadingPhrases(currentActionType.value);
+    }
+  } else {
+    stopLoadingPhrases();
+  }
+});
 
 // Focus input field for touchscreen
 const focusInput = () => {
@@ -293,4 +359,9 @@ const endSession = () => {
 const backButton = () => {
   router.push("/choose");
 };
+
+// Cleanup on unmount
+onUnmounted(() => {
+  stopLoadingPhrases();
+});
 </script>

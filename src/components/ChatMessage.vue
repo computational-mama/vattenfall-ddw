@@ -11,7 +11,7 @@
         <div class="w-6 h-6 bg-black rounded-full flex items-center justify-center">
           <img :src="botIcon" alt="Vattenbot Icon" class="text-white" />
         </div>
-        <span class="text-xl font-bold text-[#333333] font-vattenfall">Vattenbot</span>
+        <span class="text-xl font-bold text-[#333333] font-vattenfall">Rewind</span>
       </div>
 
       <!-- User header for user messages -->
