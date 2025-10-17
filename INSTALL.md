@@ -134,7 +134,7 @@ Contains the deployed Vue application served by Caddy web server.
 Contains Vue project source with `.env.local` file:
 
 ```bash
-VITE_GOOEY_API_KEY=sk-2wFYfZLrbBp7rPt1CJmrDmO9V598glpvCBePMPgFUHQAnZOf
+VITE_GOOEY_API_KEY=sk-2wFYfZLrbBp.....
 ```
 
 ---
