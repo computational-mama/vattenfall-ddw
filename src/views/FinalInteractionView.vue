@@ -15,7 +15,7 @@
     <div class="fixed top-0 left-0 right-0 bg-white z-50 border-b-1 border-[#B5B5B5]">
       <VattenfallHeader title="" />
 
-      <div class="px-[48px] pb-6">
+      <div class="px-4 md:px-8 kiosk:px-[48px] pb-6">
         <PageTitle title="Thanks for sharing" :show-close="true" close-route="/" />
 
         <!-- Subtitle with Button -->
@@ -28,14 +28,14 @@
     </div>
 
     <!-- Spacer to push content below fixed header -->
-    <div class="h-[300px]"></div>
+    <div class="h-[200px] md:h-[260px] kiosk:h-[300px]"></div>
 
     <!-- Main Content Area -->
-    <div class="px-[48px] pb-12">
+    <div class="px-4 md:px-8 kiosk:px-[48px] pb-12">
       <!-- Two Column Layout: Image Card + Achievement Card -->
-      <div class="grid grid-cols-5 gap-16 my-12">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-16 my-6 md:my-12">
         <!-- Left Column: Image Card -->
-        <div v-if="latestConversation" class="bg-[#F9F9F9] rounded-md p-3 col-span-3">
+        <div v-if="latestConversation" class="bg-[#F9F9F9] rounded-md p-3 col-span-1 md:col-span-3">
           <!-- Image -->
           <div class="flex flex-col p-3 h-5/6 space-y-6">
             <img
@@ -77,11 +77,11 @@
         </div>
 
         <!-- Right Column: Achievement Card + QR Code -->
-        <div class="flex flex-col gap-6 col-span-2 justify-between">
+        <div class="flex flex-col gap-6 col-span-1 md:col-span-2 justify-between">
           <!-- Achievement Card -->
           <div class="">
             <h2
-              class="text-4xl leading-[1.2] font-vattenfall-display font-bold text-[#2071b5] mb-4"
+              class="text-2xl md:text-4xl leading-[1.2] font-vattenfall-display font-bold text-[#2071b5] mb-4"
             >
               {{ achievementTitle }}
             </h2>
@@ -125,18 +125,18 @@
         <img
           :src="dottedSwiggleBig"
           alt=""
-          class="z-0 absolute left-72 -top-18 w-80 h-64 pointer-events-none"
+          class="hidden md:block z-0 absolute left-72 -top-18 w-80 h-64 pointer-events-none"
         />
 
         <!-- Windmill illustration -->
-        <img :src="windmillIllustration" alt="" class="absolute right-12 -top-52 w-96 h-96" />
+        <img :src="windmillIllustration" alt="" class="hidden md:block absolute right-12 -top-52 w-96 h-96" />
 
         <ImageGallery :ideas="galleryIdeas" :total-ideas="totalIdeas" />
       </div>
     </div>
     <!-- Fixed Footer -->
     <div class="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-[#e5e5e5] z-30">
-      <div class="flex items-center justify-end px-[48px] py-[32px] max-w-[1400px] mx-auto">
+      <div class="flex items-center justify-end px-4 py-3 md:px-8 md:py-5 kiosk:px-[48px] kiosk:py-[32px] max-w-[1400px] mx-auto">
         <!-- New IDEA -->
         <PrimaryButton label="Submit another idea" @click="submitAnother" size="huge" />
       </div>

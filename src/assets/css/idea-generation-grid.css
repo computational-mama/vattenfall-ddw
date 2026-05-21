@@ -1,17 +1,46 @@
-/* Idea Generation Grid Layout - Optimized for Vertical Monitors */
+/* Idea Generation Grid Layout - Responsive */
 .idea-generation-grid {
   display: grid;
   grid-template-columns: 1fr;
-  /*grid-template-rows: 0.5fr 2fr;*/
   grid-template-rows: auto 1fr;
   gap: 1rem;
-  height: calc(100vh - 620px); /* Fixed height to prevent overflow */
+  height: calc(100vh - 360px); /* Mobile: header + title + parts + footer ≈ 360px */
+  min-height: 250px;
   max-width: 1400px;
   margin: 0 auto;
   padding-bottom: 5rem;
   grid-template-areas:
     "part-info"
     "chat-area";
+}
+
+/* iPad portrait */
+@media (min-width: 768px) {
+  .idea-generation-grid {
+    height: calc(100vh - 460px);
+  }
+}
+
+/* Kiosk: preserve existing value exactly */
+@media (min-width: 1080px) {
+  .idea-generation-grid {
+    height: calc(100vh - 620px);
+  }
+}
+
+/* Existing height-based breakpoints preserved */
+@media (min-height: 1200px) {
+  .idea-generation-grid {
+    gap: 3rem;
+    height: calc(100vh - 320px);
+  }
+}
+
+@media (max-height: 900px) {
+  .idea-generation-grid {
+    gap: 1.5rem;
+    height: calc(100vh - 240px);
+  }
 }
 
 /* Grid Area Assignments */
@@ -54,9 +83,10 @@
   background-color: #f9fafb;
 }
 
+/* Part icon container - responsive sizes */
 .part-icon-container {
-  width: 120px;
-  height: 120px;
+  width: 80px;
+  height: 80px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -64,6 +94,20 @@
   background: white;
   border-radius: 1rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 768px) {
+  .part-icon-container {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+@media (min-width: 1080px) {
+  .part-icon-container {
+    width: 120px;
+    height: 120px;
+  }
 }
 
 /* Chat area optimization for vertical space */
@@ -95,21 +139,6 @@
 .chat-input-area {
   padding: 1.5rem 2rem;
   background: white;
-}
-
-/* Responsive adjustments for different screen heights */
-@media (min-height: 1200px) {
-  .idea-generation-grid {
-    gap: 3rem;
-    height: calc(100vh - 320px);
-  }
-}
-
-@media (max-height: 900px) {
-  .idea-generation-grid {
-    gap: 1.5rem;
-    height: calc(100vh - 240px);
-  }
 }
 
 /* Ensure proper font application */

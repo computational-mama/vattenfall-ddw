@@ -1,5 +1,33 @@
 <template>
-  <div class="min-h-screen bg-white flex flex-col relative overflow-hidden">
+  <!-- Phone / iPad layout (hidden on kiosk) -->
+  <div class="flex flex-col min-h-screen kiosk:hidden bg-white overflow-hidden px-6 pt-8 pb-8">
+    <!-- Logo centered at top -->
+    <div class="flex justify-center mb-8">
+      <VattenfallLogo variant="linear-grey" size="medium" />
+    </div>
+
+    <!-- HeroText fills center with responsive font sizes -->
+    <div class="flex-1 flex flex-col justify-center mb-8">
+      <HeroText
+        :highlight-text="carouselContent[currentImageIndex].highlightText"
+        :highlight-color="carouselContent[currentImageIndex].highlightColor"
+        :additional-text="carouselContent[currentImageIndex].additionalText"
+        :secondary-color="carouselContent[currentImageIndex].secondaryColor"
+        :ending="carouselContent[currentImageIndex].ending"
+      />
+    </div>
+
+    <!-- Progress Indicator -->
+    <ProgressIndicator :current-step="currentImageIndex + 1" :total-steps="3" />
+
+    <!-- IdeaCounter + start button -->
+    <div class="mt-6">
+      <IdeaCounter :idea-count="ideaCount" />
+    </div>
+  </div>
+
+  <!-- Kiosk layout: original design preserved exactly -->
+  <div class="hidden kiosk:block min-h-screen bg-white relative overflow-hidden">
     <!-- Logo -->
     <div class="absolute left-1/2 -translate-x-1/2 top-[48px] w-[231px] h-[77px] z-20">
       <VattenfallLogo variant="linear-grey" size="large" />

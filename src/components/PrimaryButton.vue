@@ -60,7 +60,7 @@ const sizeClass = computed(() => {
     small: "text-base px-6 py-4",
     medium: "text-xl px-8 py-6",
     large: "text-2xl px-10 py-7",
-    huge: "text-[28px] px-[140px] py-[24px] h-[90px]",
+    huge: "text-base px-6 py-4 md:text-lg md:px-12 md:py-5 kiosk:text-[28px] kiosk:px-[140px] kiosk:py-[24px] kiosk:h-[90px]",
     chat: "text-2xl px-10 py-7 w-full text-center justify-center",
   };
   return sizes[props.size];
