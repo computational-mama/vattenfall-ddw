@@ -2,3 +2,7 @@
 @import "./assets/fonts/vattenfall-fonts.css";
 @import "./assets/css/parts-grid.css";
 @import "./assets/css/idea-generation-grid.css";
+
+@theme {
+  --breakpoint-kiosk: 1080px;
+}

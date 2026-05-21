@@ -15,7 +15,7 @@
     <div class="bg-white border-b-1 border-[#B5B5B5]">
       <VattenfallHeader title="" />
 
-      <div class="px-[48px] pb-6">
+      <div class="px-4 md:px-8 kiosk:px-[48px] pb-6">
         <PageTitle title="All Ideas" :show-close="true" close-route="/" />
 
         <!-- Subtitle -->
@@ -28,7 +28,7 @@
     </div>
 
     <!-- Main Content Area -->
-    <div class="px-[48px] pb-12">
+    <div class="px-4 md:px-8 kiosk:px-[48px] pb-12">
       <!-- Idea Counter Section -->
       <div class="w-full py-8">
         <IdeaCounter :idea-count="totalIdeas" :show-button="false" />
@@ -39,7 +39,7 @@
         <div v-for="group in groupedIdeas" :key="group.date" class="w-full">
           <!-- Date Header -->
           <div class="mb-6">
-            <h2 class="text-3xl font-bold font-vattenfall text-[#2071b5]">{{ group.label }}</h2>
+            <h2 class="text-xl md:text-3xl font-bold font-vattenfall text-[#2071b5]">{{ group.label }}</h2>
             <p class="text-md text-gray-600 font-vattenfall">{{ group.ideas.length }} ideas</p>
           </div>
 

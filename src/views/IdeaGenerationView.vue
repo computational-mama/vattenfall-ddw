@@ -3,7 +3,7 @@
     <VattenfallHeader title="" />
 
     <!-- Main Content Area with Grid Layout -->
-    <div class="px-8 pb-12 relative">
+    <div class="px-3 pb-[100px] md:px-6 md:pb-12 kiosk:px-8 relative">
       <PageTitle
         title="Rewind is here to co-create with you"
         :show-close="true"
@@ -26,7 +26,7 @@
                 <!-- Single column layout for card -->
                 <div class="flex flex-col items-center">
                   <!-- Part Image/Icon - Top -->
-                  <div class="w-32 h-32 rounded-t-xl flex items-center justify-center p-2 mt-4">
+                  <div class="w-20 h-20 md:w-28 md:h-28 kiosk:w-32 kiosk:h-32 rounded-t-xl flex items-center justify-center p-2 mt-4">
                     <img
                       :src="part.iconSrc"
                       :alt="part.name"
@@ -58,7 +58,7 @@
               <div class="bg-black rounded-full w-6 h-6">
                 <img :src="botIcon" alt="Vattenbot Icon" class="text-white" />
               </div>
-              <h3 class="text-2xl font-vattenfall font-light px-4">Generate an image</h3>
+              <h3 class="text-lg md:text-2xl font-vattenfall font-light px-4">Generate an image</h3>
             </div>
             <!-- Chat Messages Area -->
             <div
@@ -134,7 +134,7 @@
     </div>
     <!-- Fixed Footer -->
     <div class="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-[#e5e5e5] z-30">
-      <div class="flex items-center justify-between px-[48px] py-[32px] max-w-[1400px] mx-auto">
+      <div class="flex items-center justify-between px-4 py-3 md:px-8 md:py-5 kiosk:px-[48px] kiosk:py-[32px] max-w-[1400px] mx-auto">
         <!-- Back Button -->
         <BackButton @click="backButton" />
 
