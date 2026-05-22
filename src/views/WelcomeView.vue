@@ -1,4 +1,5 @@
 <template>
+  <div>
   <!-- Phone / iPad layout (hidden on kiosk) -->
   <div class="flex flex-col min-h-screen kiosk:hidden bg-white overflow-hidden px-6 pt-8 pb-8">
     <!-- Logo centered at top -->
@@ -15,6 +16,11 @@
         :secondary-color="carouselContent[currentImageIndex].secondaryColor"
         :ending="carouselContent[currentImageIndex].ending"
       />
+    </div>
+
+    <!-- Wind Energy Illustration -->
+    <div class="flex-shrink-0 w-full h-48 md:h-64 my-2">
+      <WindEnergyIllustration :current-index="currentImageIndex" :total-images="3" />
     </div>
 
     <!-- Progress Indicator -->
@@ -60,6 +66,7 @@
     >
       <IdeaCounter :idea-count="ideaCount" />
     </div>
+  </div>
   </div>
 </template>
 

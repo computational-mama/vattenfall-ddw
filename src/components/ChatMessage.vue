@@ -2,8 +2,8 @@
   <div :class="['flex', message.role === 'user' ? 'justify-end' : 'justify-start', 'mb-4']">
     <div
       :class="[
-        'max-w-[80%] rounded-2xl p-8',
-        message.role === 'user' ? 'text-[#333333]' : ' text-[#33333]',
+        'max-w-[90%] md:max-w-[80%] rounded-2xl p-3 md:p-8',
+        'text-[#333333]',
       ]"
     >
       <!-- Vattenbot header for assistant messages -->
@@ -11,22 +11,19 @@
         <div class="w-6 h-6 bg-black rounded-full flex items-center justify-center">
           <img :src="botIcon" alt="Vattenbot Icon" class="text-white" />
         </div>
-        <span class="text-xl font-bold text-[#333333] font-vattenfall">Rewind</span>
+        <span class="text-sm md:text-xl font-bold text-[#333333] font-vattenfall">Rewind</span>
       </div>
 
       <!-- User header for user messages -->
       <div v-if="message.role === 'user'" class="flex items-center gap-2 mb-2">
-        <!-- <div class="w-6 h-6 bg-black rounded-full flex items-center justify-center">
-          <img :src="botIcon" alt="Vattenbot Icon" class="text-white" />
-        </div> -->
-        <span class="text-xl font-bold text-gray-700 font-vattenfall">You</span>
+        <span class="text-sm md:text-xl font-bold text-gray-700 font-vattenfall">You</span>
       </div>
 
       <!-- Message content -->
       <div
         :class="[
           'font-vattenfall leading-relaxed text-md',
-          message.role === 'user' ? 'bg-[#EDF9F3] text-[#333333] p-8 rounded-xl' : ' text-[#33333]',
+          message.role === 'user' ? 'bg-[#EDF9F3] text-[#333333] p-3 md:p-8 rounded-xl' : 'text-[#333333]',
         ]"
         v-html="parsedContent"
       ></div>
@@ -39,7 +36,7 @@
             v-for="(btn, index) in parsedButtons.filter((b) => !isPrimaryActionButton(b.text))"
             :key="'regular-' + index"
             @click="handleButtonClick(btn.text)"
-            class="w-full flex items-center justify-between px-4 py-8 bg-white border-2 border-[#2071B5]/20 text-[#2071B5] rounded-xl hover:bg-[#2071B5] hover:text-white transition-all font-vattenfall font-medium text-left"
+            class="w-full flex items-center justify-between px-4 py-3 md:py-6 bg-white border-2 border-[#2071B5]/20 text-[#2071B5] rounded-xl hover:bg-[#2071B5] hover:text-white transition-all font-vattenfall font-medium text-left text-sm md:text-base"
           >
             <span>{{ btn.text }}</span>
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -75,6 +72,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useRouter } from "vue-router";
+import { marked } from "marked";
 import type { ChatMessage as ChatMessageType } from "../composables/useGooeyAPI";
 import botIcon from "../assets/images/boticon.png";
 import PrimaryButton from "./PrimaryButton.vue";
@@ -94,49 +92,39 @@ const emit = defineEmits<{
 const props = defineProps<Props>();
 const router = useRouter();
 
-// Check if a button is a primary action button
 const isPrimaryActionButton = (buttonText: string): boolean => {
   const primaryButtons = ["Sketch the idea", "Save my idea", "Thanks I'm done"];
   return primaryButtons.some((primaryBtn) => buttonText.includes(primaryBtn));
 };
 
-// Handle button click with special cases
 const handleButtonClick = (buttonText: string) => {
-  // Check if this is the "Thanks I'm done" button
   if (buttonText.includes("Thanks") && buttonText.includes("done")) {
-    // Navigate to final view
     router.push("/final");
-  } else if (buttonText.includes("Sketch the idea")) {
-    // Handle sketch action - emit with special flag or handle directly
-    emit("button-click", buttonText);
-  } else if (buttonText.includes("Save the idea")) {
-    // Handle save action - emit with special flag or handle directly
-    emit("button-click", buttonText);
   } else {
-    // Emit normal button click event
     emit("button-click", buttonText);
   }
 };
 
-// Parse HTML buttons from message content
+const BUTTON_RE = /<button[^>]*gui-target="input_prompt"[^>]*>(.*?)<\/button>/g;
+
 const parsedButtons = computed((): ParsedButton[] => {
-  const buttonRegex = /<button[^>]*gui-target="input_prompt"[^>]*>(.*?)<\/button>/g;
-  const matches = [...props.message.content.matchAll(buttonRegex)];
+  const matches = [...props.message.content.matchAll(BUTTON_RE)];
   return matches.map((match) => ({ text: match[1].trim() }));
 });
 
-// Remove buttons from content for display
 const parsedContent = computed(() => {
-  let content = props.message.content;
-  // Remove button HTML tags
-  content = content.replace(/<button[^>]*gui-target="input_prompt"[^>]*>.*?<\/button>/g, "");
-  // Convert markdown images to img tags
-  content = content.replace(
-    /!\[(.*?)\]\((.*?)\)/g,
-    '<img src="$2" alt="$1" class="rounded-lg my-6 max-w-full" />',
-  );
-  // Convert line breaks
-  // content = content.replace(/\n/g, "<br>");
-  return content.trim();
+  const content = props.message.content.replace(BUTTON_RE, "");
+  return marked.parse(content.trim(), { breaks: true }) as string;
 });
 </script>
+
+<style scoped>
+:deep(.font-vattenfall strong) { font-weight: 700; }
+:deep(.font-vattenfall em) { font-style: italic; }
+:deep(.font-vattenfall p) { margin-bottom: 0.5rem; }
+:deep(.font-vattenfall p:last-child) { margin-bottom: 0; }
+:deep(.font-vattenfall ul) { list-style: disc; padding-left: 1.25rem; margin-bottom: 0.5rem; }
+:deep(.font-vattenfall ol) { list-style: decimal; padding-left: 1.25rem; margin-bottom: 0.5rem; }
+:deep(.font-vattenfall li) { margin-bottom: 0.25rem; }
+:deep(.font-vattenfall img) { border-radius: 0.5rem; margin: 1rem 0; max-width: 100%; }
+</style>

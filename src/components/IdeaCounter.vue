@@ -1,7 +1,9 @@
 <template>
   <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between w-full">
     <div class="flex flex-col gap-3 md:gap-[24px] text-[#2071b5] w-full md:w-auto">
-      <div class="flex gap-[18px] items-center text-3xl md:text-[53px] leading-[1.2] font-vattenfall-display font-bold">
+      <div
+        class="flex gap-[18px] items-center text-3xl md:text-[53px] leading-[1.2] font-vattenfall-display font-bold"
+      >
         <p>{{ ideaCount }}</p>
         <p>Ideas</p>
       </div>
@@ -9,7 +11,12 @@
         Scroll to view the ideas shared<br />by participants like you!
       </p>
     </div>
-    <PrimaryButton v-if="showButton" label="Click to start Ideating" size="huge" @click="handleClick" />
+    <PrimaryButton
+      v-if="showButton"
+      label="Tap to start ideating"
+      size="huge"
+      @click="handleClick"
+    />
   </div>
 </template>
 
@@ -23,7 +30,7 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-  showButton: true
+  showButton: true,
 });
 
 const router = useRouter();

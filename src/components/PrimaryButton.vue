@@ -57,11 +57,11 @@ defineEmits<{
 
 const sizeClass = computed(() => {
   const sizes = {
-    small: "text-base px-6 py-4",
+    small: "text-sm px-4 py-2 md:text-base md:px-6 md:py-4",
     medium: "text-xl px-8 py-6",
     large: "text-2xl px-10 py-7",
-    huge: "text-base px-6 py-4 md:text-lg md:px-12 md:py-5 kiosk:text-[28px] kiosk:px-[140px] kiosk:py-[24px] kiosk:h-[90px]",
-    chat: "text-2xl px-10 py-7 w-full text-center justify-center",
+    huge: "text-sm px-4 py-2 md:text-lg md:px-12 md:py-5 kiosk:text-[28px] kiosk:px-[140px] kiosk:py-[24px] kiosk:h-[90px]",
+    chat: "text-sm px-4 py-2 md:text-base md:px-6 md:py-3 kiosk:text-[28px] kiosk:px-[60px] kiosk:py-[28px] kiosk:h-[90px] w-full text-center justify-center",
   };
   return sizes[props.size];
 });
@@ -85,5 +85,6 @@ button {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  word-spacing: 0.25em;
 }
 </style>

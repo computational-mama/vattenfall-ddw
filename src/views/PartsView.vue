@@ -4,21 +4,25 @@
     <div class="fixed top-0 left-0 right-0 bg-white z-20">
       <VattenfallHeader title="" />
 
-      <div class="px-4 md:px-8 kiosk:px-[48px] pb-6">
+      <div class="px-4 md:px-8 kiosk:px-[48px]">
         <PageTitle title="Select upto three parts to explore" :show-close="true" close-route="/" />
         <!-- Instruction text -->
-        <div class="mb-[32px]">
-          <h3 class="text-lg md:text-xl kiosk:text-2xl leading-[1.5] text-black font-vattenfall font-bold">
+        <div class="">
+          <h3
+            class="text-lg md:text-xl kiosk:text-2xl leading-[1.5] text-black font-vattenfall font-bold"
+          >
             More parts, higher complexity
           </h3>
 
-          <p class="text-sm md:text-base kiosk:text-[18px] leading-[1.5] text-black font-vattenfall">
+          <p
+            class="text-sm md:text-base kiosk:text-[18px] leading-[1.5] text-black font-vattenfall"
+          >
             Feel like challenging yourself? Choose more than one part.
           </p>
         </div>
         <!-- Progress Indicator -->
-        <div class="mb-10">
-          <div class="flex items-center gap-4 mb-4">
+        <div class="mb-2">
+          <div class="flex items-center gap-4 mb-2">
             <p
               v-if="selectedPartIds.length > 0"
               class="text-sm md:text-base kiosk:text-[18px] leading-[1.5] text-black font-vattenfall font-black"
@@ -32,7 +36,9 @@
               }}
             </p>
 
-            <p class="text-sm md:text-base kiosk:text-[18px] leading-[1.5] text-black font-vattenfall">
+            <p
+              class="text-sm md:text-base kiosk:text-[18px] leading-[1.5] text-black font-vattenfall"
+            >
               <strong>{{ selectedPartIds.length }}</strong> parts selected
             </p>
           </div>
@@ -48,17 +54,17 @@
     </div>
 
     <!-- Spacer to push content below fixed header -->
-    <div class="h-[270px] md:h-[340px] kiosk:h-[450px]"></div>
+    <div class="h-[215px] md:h-[200px] kiosk:h-[450px]"></div>
 
     <!-- Scrollable Grid container -->
     <div class="px-2 md:px-4 kiosk:px-[24px] pb-[160px]">
       <div class="w-full">
-        <div class="grid grid-cols-1 md:grid-cols-2 kiosk:grid-cols-3 gap-4 mb-[60px] kiosk:mb-[100px]">
+        <div class="grid grid-cols-3 gap-2 md:gap-3 kiosk:gap-4 mb-[60px] kiosk:mb-[100px]">
           <div
             v-for="part in sortedParts"
             :key="part.id"
             :class="[
-              'bg-[#F9F9F9] border-[#2071B580] border-1 rounded-xl p-4 cursor-pointer transition-all',
+              'bg-[#F9F9F9] border-[#2071B580] border-1 rounded-xl p-1 kiosk:p-4 cursor-pointer transition-all',
               'flex flex-col items-center justify-center relative',
               {
                 'bg-[rgba(57,111,176,0.15)] border-[#2071B5] border-4 shadow-lg scale-[1.02]':
@@ -70,10 +76,10 @@
             <!-- Selection checkmark icon - top right -->
             <div
               v-if="isPartSelected(part.id)"
-              class="absolute top-[16px] right-[16px] w-7 h-7 md:w-8 md:h-8 kiosk:w-[40px] kiosk:h-[40px] bg-[#4caf50] rounded-full flex items-center justify-center"
+              class="absolute top-[8px] right-[8px] md:top-[10px] md:right-[10px] kiosk:top-[16px] kiosk:right-[16px] w-5 h-5 md:w-6 md:h-6 kiosk:w-[40px] kiosk:h-[40px] bg-[#4caf50] rounded-full flex items-center justify-center"
             >
               <svg
-                class="w-4 h-4 kiosk:w-6 kiosk:h-6"
+                class="w-3 h-3 md:w-4 md:h-4 kiosk:w-6 kiosk:h-6"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="white"
@@ -85,28 +91,34 @@
             <!-- Unselected circle icon - top right -->
             <div
               v-else
-              class="absolute top-[16px] right-[16px] w-7 h-7 md:w-8 md:h-8 kiosk:w-[40px] kiosk:h-[40px] border-[2px] border-[#d1d1d6] rounded-full"
+              class="absolute top-[8px] right-[8px] md:top-[10px] md:right-[10px] kiosk:top-[16px] kiosk:right-[16px] w-5 h-5 md:w-6 md:h-6 kiosk:w-[40px] kiosk:h-[40px] border-[2px] border-[#d1d1d6] rounded-full"
             ></div>
 
             <!-- Part content -->
-            <div class="flex flex-col items-center text-center pt-[40px] w-full">
+            <div class="flex flex-col items-center text-center kiosk:pt-[40px] w-full">
               <!-- Icon/Image -->
               <div
-                :class="part.priority === 1
-                  ? 'w-36 h-36 md:w-48 md:h-48 kiosk:w-72 kiosk:h-72'
-                  : 'w-24 h-24 md:w-36 md:h-36 kiosk:w-48 kiosk:h-48'"
-                class="mb-4 flex-shrink-0"
+                :class="
+                  part.priority === 1
+                    ? 'w-20 h-20 md:w-32 md:h-32 kiosk:w-72 kiosk:h-72'
+                    : 'w-14 h-14 md:w-24 md:h-24 kiosk:w-48 kiosk:h-48'
+                "
+                class="mb-2 kiosk:mb-4 flex-shrink-0"
               >
                 <img :src="part.iconSrc" :alt="part.name" class="w-full h-full object-cover" />
               </div>
-              <div class="px-2 flex flex-col">
+              <div class="flex flex-col">
                 <!-- Part Name -->
-                <h3 class="text-[#2071B5] font-bold font-vattenfall mb-2 text-xl">
+                <h3
+                  class="text-[#2071B5] font-bold font-vattenfall mb-1 kiosk:mb-2 text-xs md:text-sm kiosk:text-xl"
+                >
                   {{ part.name }}
                 </h3>
 
                 <!-- Description -->
-                <p class="text-[#333333] font-vattenfall leading-relaxed text-sm pb-4">
+                <p
+                  class="text-[#333333] font-vattenfall leading-relaxed text-[10px] md:text-xs kiosk:text-sm pb-2 kiosk:pb-4"
+                >
                   {{ part.description }}
                 </p>
               </div>
@@ -118,7 +130,9 @@
 
     <!-- Fixed Footer -->
     <div class="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-[#e5e5e5] z-30">
-      <div class="flex items-center justify-between px-4 py-3 md:px-8 md:py-5 kiosk:px-[48px] kiosk:py-[32px] max-w-[1400px] mx-auto">
+      <div
+        class="flex items-center justify-between px-4 py-2 md:px-8 md:py-5 kiosk:px-[48px] kiosk:py-[32px] max-w-[1400px] mx-auto"
+      >
         <!-- Back Button -->
         <BackButton @click="backButton" />
 
@@ -173,7 +187,7 @@ const { addSelectedPart, getSelectedParts, clearSelectedParts } = useSelectedPar
 // Inactivity timeout - 90 seconds
 // Note: clearSelectedParts() is handled by router guard, no need to call it here
 useInactivityTimeout({
-  timeoutSeconds: 90,
+  timeoutSeconds: 600,
   redirectTo: "/",
 });
 

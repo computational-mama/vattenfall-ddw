@@ -4,21 +4,13 @@
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr;
   gap: 1rem;
-  height: calc(100vh - 360px); /* Mobile: header + title + parts + footer ≈ 360px */
+  height: calc(100vh - 230px); /* header ~56px + page title ~80px + footer clearance ~94px */
   min-height: 250px;
   max-width: 1400px;
   margin: 0 auto;
-  padding-bottom: 5rem;
   grid-template-areas:
     "part-info"
     "chat-area";
-}
-
-/* iPad portrait */
-@media (min-width: 768px) {
-  .idea-generation-grid {
-    height: calc(100vh - 460px);
-  }
 }
 
 /* Kiosk: preserve existing value exactly */
@@ -28,20 +20,6 @@
   }
 }
 
-/* Existing height-based breakpoints preserved */
-@media (min-height: 1200px) {
-  .idea-generation-grid {
-    gap: 3rem;
-    height: calc(100vh - 320px);
-  }
-}
-
-@media (max-height: 900px) {
-  .idea-generation-grid {
-    gap: 1.5rem;
-    height: calc(100vh - 240px);
-  }
-}
 
 /* Grid Area Assignments */
 .vattenbot-header {
@@ -137,8 +115,14 @@
 }
 
 .chat-input-area {
-  padding: 1.5rem 2rem;
+  padding: 0.5rem 0.75rem;
   background: white;
+}
+
+@media (min-width: 768px) {
+  .chat-input-area {
+    padding: 1.5rem 2rem;
+  }
 }
 
 /* Ensure proper font application */

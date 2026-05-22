@@ -13,20 +13,24 @@
       <div class="idea-generation-grid">
         <!-- Part Selection Display -->
         <div class="part-information">
-          <h3 class="text-2xl font-bold text-black mb-4 font-vattenfall z-50">Parts selected:</h3>
+          <h3 class="text-sm md:text-2xl font-bold text-black mb-1 md:mb-4 font-vattenfall z-50">
+            Parts selected:
+          </h3>
 
           <!-- Horizontal scrollable cards for multiple parts -->
-          <div class="">
-            <div class="flex flex-nowrap gap-3">
+          <div class="overflow-x-auto">
+            <div class="flex flex-nowrap gap-2 md:gap-3">
               <div
                 v-for="(part, index) in selectedParts"
                 :key="part.id"
-                class="bg-[#f9fafb] rounded-xl flex-shrink-0 w-xs border border-gray-200"
+                class="bg-[#f9fafb] rounded-xl flex-shrink-0 w-[120px] md:w-xs border border-gray-200"
               >
                 <!-- Single column layout for card -->
                 <div class="flex flex-col items-center">
                   <!-- Part Image/Icon - Top -->
-                  <div class="w-20 h-20 md:w-28 md:h-28 kiosk:w-32 kiosk:h-32 rounded-t-xl flex items-center justify-center p-2 mt-4">
+                  <div
+                    class="h-14 md:h-20 kiosk:w-32 kiosk:h-32 rounded-t-xl flex items-center justify-center p-1 md:p-2 mt-2 md:mt-3 kiosk:mt-4"
+                  >
                     <img
                       :src="part.iconSrc"
                       :alt="part.name"
@@ -35,12 +39,14 @@
                   </div>
 
                   <!-- Part Details - Bottom -->
-                  <div class="py-3 px-4">
-                    <h3 class="font-bold mb-2 font-vattenfall text-xl text-[#2071b5]">
+                  <div class="p-2 md:py-3 md:px-4">
+                    <h3
+                      class="font-bold font-vattenfall text-xs md:text-sm kiosk:text-xl text-[#2071b5] leading-tight"
+                    >
                       {{ part.name }}
                     </h3>
                     <p
-                      class="text-[#333333] leading-relaxed font-vattenfall font-medium text-xs pb-2"
+                      class="hidden kiosk:block text-[#333333] leading-relaxed font-vattenfall font-medium text-xs pb-2 mt-2"
                     >
                       {{ part.description }}
                     </p>
@@ -54,7 +60,7 @@
         <!-- Chat Interface -->
         <div class="chat-interface">
           <div class="chat-content">
-            <div class="h-18 bg-[#f6f6f6] flex flex-row p-6 items-center">
+            <div class="bg-[#f6f6f6] flex flex-row p-3 md:p-6 items-center">
               <div class="bg-black rounded-full w-6 h-6">
                 <img :src="botIcon" alt="Vattenbot Icon" class="text-white" />
               </div>
@@ -63,7 +69,7 @@
             <!-- Chat Messages Area -->
             <div
               ref="chatMessagesContainer"
-              class="chat-messages-area flex-1 overflow-y-auto px-6 py-4"
+              class="chat-messages-area flex-1 overflow-y-auto px-3 py-3 md:px-6 md:py-4"
             >
               <ChatMessage
                 v-for="(msg, index) in chatMessages"
@@ -102,7 +108,7 @@
 
             <!-- Chat Input -->
             <div class="chat-input-area">
-              <div class="flex items-center gap-3 px-4 py-3">
+              <div class="flex items-center gap-2 px-2 py-1 md:gap-3 md:px-4 md:py-3">
                 <!-- Input Field -->
                 <input
                   ref="inputField"
@@ -113,16 +119,16 @@
                   inputmode="text"
                   autocomplete="off"
                   placeholder="Ask me anything ..."
-                  class="flex-1 border-none outline-none bg-[#f5f5f5] rounded-full text-gray-700 placeholder-gray-400 font-vattenfall text-xl p-6"
+                  class="flex-1 border-none outline-none bg-[#f5f5f5] rounded-full text-gray-700 placeholder-gray-400 font-vattenfall text-sm p-3 md:text-xl md:p-6"
                 />
 
                 <!-- Send Button -->
                 <button
                   @click="sendMessage"
                   :disabled="!userInput.trim() || loading || isStreaming"
-                  class="w-18 h-18 flex bg-[#f5f5f5] items-center justify-center text-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 hover:bg-gray-200 rounded-full"
+                  class="w-10 h-10 md:w-18 md:h-18 flex bg-[#f5f5f5] items-center justify-center text-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 hover:bg-gray-200 rounded-full"
                 >
-                  <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-5 h-5 md:w-8 md:h-8" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
                   </svg>
                 </button>
@@ -134,7 +140,9 @@
     </div>
     <!-- Fixed Footer -->
     <div class="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-[#e5e5e5] z-30">
-      <div class="flex items-center justify-between px-4 py-3 md:px-8 md:py-5 kiosk:px-[48px] kiosk:py-[32px] max-w-[1400px] mx-auto">
+      <div
+        class="flex items-center justify-between px-4 py-2 md:px-8 md:py-5 kiosk:px-[48px] kiosk:py-[32px] max-w-[1400px] mx-auto"
+      >
         <!-- Back Button -->
         <BackButton @click="backButton" />
 
@@ -170,7 +178,7 @@ const { callVideoBotAPI, loading, streamText, isStreaming } = useGooeyAPI();
 // Inactivity timeout - 120 seconds
 // Note: clearSelectedParts() is handled by router guard, no need to call it here
 useInactivityTimeout({
-  timeoutSeconds: 120,
+  timeoutSeconds: 600,
   redirectTo: "/",
 });
 

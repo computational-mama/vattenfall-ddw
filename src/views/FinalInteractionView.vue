@@ -18,17 +18,15 @@
       <div class="px-4 md:px-8 kiosk:px-[48px] pb-6">
         <PageTitle title="Thanks for sharing" :show-close="true" close-route="/" />
 
-        <!-- Subtitle with Button -->
-        <div class="flex items-center justify-between -mt-6">
-          <p class="text-lg leading-[1.5] text-black font-vattenfall">
-            Your idea breathes new life into a<br />retired wind turbine.
-          </p>
-        </div>
+        <!-- Subtitle -->
+        <p class="text-base md:text-lg leading-[1.5] text-black font-vattenfall mt-1">
+          Your idea breathes new life into a retired wind turbine.
+        </p>
       </div>
     </div>
 
     <!-- Spacer to push content below fixed header -->
-    <div class="h-[200px] md:h-[260px] kiosk:h-[300px]"></div>
+    <div class="h-[150px] md:h-[145px] kiosk:h-[300px]"></div>
 
     <!-- Main Content Area -->
     <div class="px-4 md:px-8 kiosk:px-[48px] pb-12">
@@ -129,14 +127,20 @@
         />
 
         <!-- Windmill illustration -->
-        <img :src="windmillIllustration" alt="" class="hidden md:block absolute right-12 -top-52 w-96 h-96" />
+        <img
+          :src="windmillIllustration"
+          alt=""
+          class="hidden md:block absolute right-12 -top-52 w-96 h-96"
+        />
 
         <ImageGallery :ideas="galleryIdeas" :total-ideas="totalIdeas" />
       </div>
     </div>
     <!-- Fixed Footer -->
     <div class="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-[#e5e5e5] z-30">
-      <div class="flex items-center justify-end px-4 py-3 md:px-8 md:py-5 kiosk:px-[48px] kiosk:py-[32px] max-w-[1400px] mx-auto">
+      <div
+        class="flex items-center justify-end px-4 py-2 md:px-8 md:py-5 kiosk:px-[48px] kiosk:py-[32px] max-w-[1400px] mx-auto"
+      >
         <!-- New IDEA -->
         <PrimaryButton label="Submit another idea" @click="submitAnother" size="huge" />
       </div>
@@ -172,7 +176,7 @@ const { getDifficulty, clearSelectedParts, getSelectedParts } = useSelectedPart(
 // Inactivity timeout - 120 seconds
 // Note: clearSelectedParts() is handled by router guard, no need to call it here
 useInactivityTimeout({
-  timeoutSeconds: 120,
+  timeoutSeconds: 600,
   redirectTo: "/",
 });
 

@@ -97,13 +97,13 @@
     <!-- Fixed Action Buttons at Bottom -->
     <div
       v-if="!loading && !error && ideaData"
-      class="fixed bottom-0 w-full bg-white border-t border-gray-200 p-6 z-50"
+      class="fixed bottom-0 w-full bg-white border-t-2 border-[#e5e5e5] px-4 py-2 md:px-8 md:py-5 kiosk:px-[48px] kiosk:py-[32px] z-50"
     >
-      <div class="mx-auto flex flex-col space-y-4">
+      <div class="mx-auto flex flex-col space-y-2 md:space-y-4">
         <!-- Download Image Button -->
         <button
           @click="downloadImage"
-          class="w-full py-4 bg-[#ffda00] text-black rounded-full text-lg font-vattenfall font-light hover:bg-[#ffd700] transition-colors"
+          class="w-full py-2 md:py-4 bg-[#ffda00] text-black rounded-full text-sm md:text-lg font-vattenfall font-light hover:bg-[#ffd700] transition-colors"
         >
           Download Image
         </button>
@@ -111,7 +111,7 @@
         <!-- Copy Link Button -->
         <button
           @click="copyLink"
-          class="w-full py-4 bg-white text-[#2071b5] border-1 border-[#2071b5] rounded-full text-lg font-vattenfall font-light hover:bg-[#e8f2f7] transition-colors"
+          class="w-full py-2 md:py-4 bg-white text-[#2071b5] border-1 border-[#2071b5] rounded-full text-sm md:text-lg font-vattenfall font-light hover:bg-[#e8f2f7] transition-colors"
         >
           {{ linkCopied ? "Link Copied!" : "Copy Link" }}
         </button>
