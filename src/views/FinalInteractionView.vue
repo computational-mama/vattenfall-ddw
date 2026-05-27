@@ -31,7 +31,7 @@
     <!-- Main Content Area -->
     <div class="px-4 md:px-8 kiosk:px-[48px] pb-12">
       <!-- Two Column Layout: Image Card + Achievement Card -->
-      <div class="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-16 my-6 md:my-12">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-16 my-4">
         <!-- Left Column: Image Card -->
         <div v-if="latestConversation" class="bg-[#F9F9F9] rounded-md p-3 col-span-1 md:col-span-3">
           <!-- Image -->
@@ -75,9 +75,9 @@
         </div>
 
         <!-- Right Column: Achievement Card + QR Code -->
-        <div class="flex flex-col gap-6 col-span-1 md:col-span-2 justify-between">
+        <div class="flex flex-col gap-6 col-span-1 md:col-span-2 justify-start">
           <!-- Achievement Card -->
-          <div class="">
+          <div class="mb-6">
             <h2
               class="text-2xl md:text-4xl leading-[1.2] font-vattenfall-display font-bold text-[#2071b5] mb-4"
             >

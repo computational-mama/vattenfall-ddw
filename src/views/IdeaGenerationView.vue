@@ -60,17 +60,14 @@
         <!-- Chat Interface -->
         <div class="chat-interface">
           <div class="chat-content">
-            <div class="bg-[#f6f6f6] flex flex-row p-3 md:p-6 items-center">
-              <div class="bg-black rounded-full w-6 h-6">
+            <div class="bg-[#f6f6f6] flex flex-row p-2 md:p-2 items-center">
+              <!-- <div class="bg-black rounded-full w-6 h-6">
                 <img :src="botIcon" alt="Vattenbot Icon" class="text-white" />
-              </div>
-              <h3 class="text-lg md:text-2xl font-vattenfall font-light px-4">Generate an image</h3>
+              </div> -->
+              <h3 class="text-lg font-vattenfall font-light px-4">Co-create your idea</h3>
             </div>
             <!-- Chat Messages Area -->
-            <div
-              ref="chatMessagesContainer"
-              class="chat-messages-area flex-1 overflow-y-auto px-3 py-3 md:px-6 md:py-4"
-            >
+            <div ref="chatMessagesContainer" class="chat-messages-area flex-1 overflow-y-auto p-2">
               <ChatMessage
                 v-for="(msg, index) in chatMessages"
                 :key="index"
@@ -109,7 +106,7 @@
 
             <!-- Chat Input -->
             <div class="chat-input-area" @click="focusInput">
-              <div class="flex items-center gap-2 px-2 py-1 md:gap-3 md:px-4 md:py-3">
+              <div class="flex items-center p-1">
                 <!-- Input Field -->
                 <input
                   ref="inputField"

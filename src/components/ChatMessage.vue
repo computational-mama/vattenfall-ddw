@@ -1,6 +1,6 @@
 <template>
   <div :class="['flex', message.role === 'user' ? 'justify-end' : 'justify-start', 'mb-4']">
-    <div :class="['max-w-[90%] md:max-w-[80%] rounded-2xl p-3 md:p-8', 'text-[#333333]']">
+    <div :class="['max-w-[90%] md:max-w-[80%] rounded-2xl p-3', 'text-[#333333]']">
       <!-- Vattenbot header for assistant messages -->
       <div v-if="message.role === 'assistant'" class="flex items-center gap-2 mb-2">
         <div class="w-6 h-6 bg-black rounded-full flex items-center justify-center">
