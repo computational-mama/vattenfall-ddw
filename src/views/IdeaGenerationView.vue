@@ -107,14 +107,14 @@
             </div>
 
             <!-- Chat Input -->
-            <div class="chat-input-area">
+            <div class="chat-input-area" @click="focusInput">
               <div class="flex items-center gap-2 px-2 py-1 md:gap-3 md:px-4 md:py-3">
                 <!-- Input Field -->
                 <input
                   ref="inputField"
                   v-model="userInput"
                   @keyup.enter="sendMessage"
-                  @touchstart="focusInput"
+                  @touchend="focusInput"
                   type="text"
                   inputmode="text"
                   autocomplete="off"
@@ -260,11 +260,18 @@ watch([loading, isStreaming], ([isLoading, streaming]) => {
   }
 });
 
-// Focus input field for touchscreen
-const focusInput = () => {
-  if (inputField.value) {
-    inputField.value.focus();
-  }
+// Focus input field for touchscreen.
+// On iOS, after a programmatic scroll the keyboard can hide while the input
+// stays "focused" in the DOM. A subsequent tap fires no focus event, so the
+// keyboard never reopens. Forcing blur→focus within the touch/click gesture
+// makes iOS treat it as a fresh focus and reliably shows the keyboard.
+const focusInput = (event?: Event) => {
+  if (!inputField.value) return;
+  // Avoid double-firing when the click event bubbles up from the input itself
+  // after touchend has already handled it.
+  if (event?.type === "click" && event.target === inputField.value) return;
+  inputField.value.blur();
+  inputField.value.focus();
 };
 
 // Auto-scroll to bottom of chat
