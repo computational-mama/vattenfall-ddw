@@ -39,8 +39,18 @@
           <!-- Progress bar -->
           <div class="w-full h-2 bg-[#e5e5e5] rounded-full overflow-hidden">
             <div
-              class="h-full bg-[#2071b5] transition-all duration-500 ease-out"
-              :style="{ width: `${(selectedPartIds.length / 3) * 100}%` }"
+              class="h-full transition-all duration-500 ease-out"
+              :style="{
+                width: `${(selectedPartIds.length / 3) * 100}%`,
+                backgroundColor:
+                  selectedPartIds.length === 1
+                    ? '#1976d2'
+                    : selectedPartIds.length === 2
+                      ? '#00796b'
+                      : selectedPartIds.length === 3
+                        ? '#d32f2f'
+                        : '#2071b5',
+              }"
             ></div>
           </div>
         </div>
