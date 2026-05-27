@@ -1,11 +1,6 @@
 <template>
   <div :class="['flex', message.role === 'user' ? 'justify-end' : 'justify-start', 'mb-4']">
-    <div
-      :class="[
-        'max-w-[90%] md:max-w-[80%] rounded-2xl p-3 md:p-8',
-        'text-[#333333]',
-      ]"
-    >
+    <div :class="['max-w-[90%] md:max-w-[80%] rounded-2xl p-3 md:p-8', 'text-[#333333]']">
       <!-- Vattenbot header for assistant messages -->
       <div v-if="message.role === 'assistant'" class="flex items-center gap-2 mb-2">
         <div class="w-6 h-6 bg-black rounded-full flex items-center justify-center">
@@ -23,7 +18,9 @@
       <div
         :class="[
           'font-vattenfall leading-relaxed text-md',
-          message.role === 'user' ? 'bg-[#EDF9F3] text-[#333333] p-3 md:p-8 rounded-xl' : 'text-[#333333]',
+          message.role === 'user'
+            ? 'bg-[#EDF9F3] text-[#333333] p-3 md:p-8 rounded-xl'
+            : 'text-[#333333]',
         ]"
         v-html="parsedContent"
       ></div>
@@ -71,7 +68,6 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useRouter } from "vue-router";
 import { marked } from "marked";
 import type { ChatMessage as ChatMessageType } from "../composables/useGooeyAPI";
 import botIcon from "../assets/images/boticon.png";
@@ -87,10 +83,10 @@ interface ParsedButton {
 
 const emit = defineEmits<{
   "button-click": [text: string];
+  "save-idea": [text: string];
 }>();
 
 const props = defineProps<Props>();
-const router = useRouter();
 
 const isPrimaryActionButton = (buttonText: string): boolean => {
   const primaryButtons = ["Sketch the idea", "Save my idea", "Thanks I'm done"];
@@ -98,8 +94,8 @@ const isPrimaryActionButton = (buttonText: string): boolean => {
 };
 
 const handleButtonClick = (buttonText: string) => {
-  if (buttonText.includes("Thanks") && buttonText.includes("done")) {
-    router.push("/final");
+  if (buttonText.includes("Save my idea")) {
+    emit("save-idea", buttonText);
   } else {
     emit("button-click", buttonText);
   }
@@ -113,18 +109,40 @@ const parsedButtons = computed((): ParsedButton[] => {
 });
 
 const parsedContent = computed(() => {
-  const content = props.message.content.replace(BUTTON_RE, "");
+  const content = props.message.content.replace(BUTTON_RE, " ");
   return marked.parse(content.trim(), { breaks: true }) as string;
 });
 </script>
 
 <style scoped>
-:deep(.font-vattenfall strong) { font-weight: 700; }
-:deep(.font-vattenfall em) { font-style: italic; }
-:deep(.font-vattenfall p) { margin-bottom: 0.5rem; }
-:deep(.font-vattenfall p:last-child) { margin-bottom: 0; }
-:deep(.font-vattenfall ul) { list-style: disc; padding-left: 1.25rem; margin-bottom: 0.5rem; }
-:deep(.font-vattenfall ol) { list-style: decimal; padding-left: 1.25rem; margin-bottom: 0.5rem; }
-:deep(.font-vattenfall li) { margin-bottom: 0.25rem; }
-:deep(.font-vattenfall img) { border-radius: 0.5rem; margin: 1rem 0; max-width: 100%; }
+:deep(.font-vattenfall strong) {
+  font-weight: 700;
+}
+:deep(.font-vattenfall em) {
+  font-style: italic;
+}
+:deep(.font-vattenfall p) {
+  margin-bottom: 0.5rem;
+}
+:deep(.font-vattenfall p:last-child) {
+  margin-bottom: 0;
+}
+:deep(.font-vattenfall ul) {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+:deep(.font-vattenfall ol) {
+  list-style: decimal;
+  padding-left: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+:deep(.font-vattenfall li) {
+  margin-bottom: 0.25rem;
+}
+:deep(.font-vattenfall img) {
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+  max-width: 100%;
+}
 </style>

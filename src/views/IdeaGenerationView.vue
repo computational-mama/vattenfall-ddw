@@ -76,6 +76,7 @@
                 :key="index"
                 :message="msg"
                 @button-click="handleButtonClick"
+                @save-idea="handleSaveIdea"
               />
 
               <!-- Loading indicator -->
@@ -373,6 +374,13 @@ const handleButtonClick = async (buttonText: string) => {
 
   userInput.value = buttonText;
   await sendMessage();
+};
+
+const handleSaveIdea = async (buttonText: string) => {
+  currentActionType.value = "save";
+  userInput.value = buttonText;
+  await sendMessage();
+  router.push("/final");
 };
 
 const endSession = () => {

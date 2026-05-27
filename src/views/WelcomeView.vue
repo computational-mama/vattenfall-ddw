@@ -1,72 +1,74 @@
 <template>
   <div>
-  <!-- Phone / iPad layout (hidden on kiosk) -->
-  <div class="flex flex-col min-h-screen kiosk:hidden bg-white overflow-hidden px-6 pt-8 pb-8">
-    <!-- Logo centered at top -->
-    <div class="flex justify-center mb-8">
-      <VattenfallLogo variant="linear-grey" size="medium" />
+    <!-- Phone / iPad layout (hidden on kiosk) -->
+    <div class="flex flex-col h-[100dvh] kiosk:hidden bg-white px-6 pt-6 pb-6">
+      <!-- Logo centered at top -->
+      <div class="flex justify-center mb-4 md:mb-6 flex-shrink-0">
+        <VattenfallLogo variant="linear-grey" size="medium" />
+      </div>
+
+      <!-- HeroText fills center with responsive font sizes -->
+      <div class="flex-1 flex flex-col justify-center mb-4 md:mb-6 min-h-0">
+        <HeroText
+          :highlight-text="carouselContent[currentImageIndex].highlightText"
+          :highlight-color="carouselContent[currentImageIndex].highlightColor"
+          :additional-text="carouselContent[currentImageIndex].additionalText"
+          :secondary-color="carouselContent[currentImageIndex].secondaryColor"
+          :ending="carouselContent[currentImageIndex].ending"
+        />
+      </div>
+
+      <!-- Wind Energy Illustration — dvh keeps it proportional across all iPad sizes -->
+      <div class="flex-shrink-0 w-full h-[28dvh] md:h-[32dvh] my-2">
+        <WindEnergyIllustration :current-index="currentImageIndex" :total-images="3" />
+      </div>
+
+      <!-- Progress Indicator -->
+      <div class="flex-shrink-0">
+        <ProgressIndicator :current-step="currentImageIndex + 1" :total-steps="3" />
+      </div>
+
+      <!-- IdeaCounter + start button -->
+      <div class="mt-4 flex-shrink-0">
+        <IdeaCounter :idea-count="ideaCount" />
+      </div>
     </div>
 
-    <!-- HeroText fills center with responsive font sizes -->
-    <div class="flex-1 flex flex-col justify-center mb-8">
-      <HeroText
-        :highlight-text="carouselContent[currentImageIndex].highlightText"
-        :highlight-color="carouselContent[currentImageIndex].highlightColor"
-        :additional-text="carouselContent[currentImageIndex].additionalText"
-        :secondary-color="carouselContent[currentImageIndex].secondaryColor"
-        :ending="carouselContent[currentImageIndex].ending"
-      />
-    </div>
+    <!-- Kiosk layout: original design preserved exactly -->
+    <div class="hidden kiosk:block min-h-screen bg-white relative overflow-hidden">
+      <!-- Logo -->
+      <div class="absolute left-1/2 -translate-x-1/2 top-[48px] w-[231px] h-[77px] z-20">
+        <VattenfallLogo variant="linear-grey" size="large" />
+      </div>
 
-    <!-- Wind Energy Illustration -->
-    <div class="flex-shrink-0 w-full h-48 md:h-64 my-2">
-      <WindEnergyIllustration :current-index="currentImageIndex" :total-images="3" />
-    </div>
+      <!-- Hero Text -->
+      <div class="absolute left-[90px] top-[244px] w-[900px] z-20">
+        <HeroText
+          :highlight-text="carouselContent[currentImageIndex].highlightText"
+          :highlight-color="carouselContent[currentImageIndex].highlightColor"
+          :additional-text="carouselContent[currentImageIndex].additionalText"
+          :secondary-color="carouselContent[currentImageIndex].secondaryColor"
+          :ending="carouselContent[currentImageIndex].ending"
+        />
+      </div>
 
-    <!-- Progress Indicator -->
-    <ProgressIndicator :current-step="currentImageIndex + 1" :total-steps="3" />
+      <!-- Wind Energy Illustration with Carousel -->
+      <div class="absolute left-[48px] top-[362px] w-[984px] h-[1180px] z-0">
+        <WindEnergyIllustration :current-index="currentImageIndex" :total-images="3" />
+      </div>
 
-    <!-- IdeaCounter + start button -->
-    <div class="mt-6">
-      <IdeaCounter :idea-count="ideaCount" />
-    </div>
-  </div>
+      <!-- Progress Indicator -->
+      <div class="absolute left-[48px] top-[1590px] w-[984px] z-20">
+        <ProgressIndicator :current-step="currentImageIndex + 1" :total-steps="3" />
+      </div>
 
-  <!-- Kiosk layout: original design preserved exactly -->
-  <div class="hidden kiosk:block min-h-screen bg-white relative overflow-hidden">
-    <!-- Logo -->
-    <div class="absolute left-1/2 -translate-x-1/2 top-[48px] w-[231px] h-[77px] z-20">
-      <VattenfallLogo variant="linear-grey" size="large" />
+      <!-- Bottom Section -->
+      <div
+        class="absolute bottom-[48px] left-1/2 -translate-x-1/2 w-[984px] h-[200px] flex items-center justify-between py-[40px] z-20"
+      >
+        <IdeaCounter :idea-count="ideaCount" />
+      </div>
     </div>
-
-    <!-- Hero Text -->
-    <div class="absolute left-[90px] top-[244px] w-[900px] z-20">
-      <HeroText
-        :highlight-text="carouselContent[currentImageIndex].highlightText"
-        :highlight-color="carouselContent[currentImageIndex].highlightColor"
-        :additional-text="carouselContent[currentImageIndex].additionalText"
-        :secondary-color="carouselContent[currentImageIndex].secondaryColor"
-        :ending="carouselContent[currentImageIndex].ending"
-      />
-    </div>
-
-    <!-- Wind Energy Illustration with Carousel -->
-    <div class="absolute left-[48px] top-[362px] w-[984px] h-[1180px] z-0">
-      <WindEnergyIllustration :current-index="currentImageIndex" :total-images="3" />
-    </div>
-
-    <!-- Progress Indicator -->
-    <div class="absolute left-[48px] top-[1590px] w-[984px] z-20">
-      <ProgressIndicator :current-step="currentImageIndex + 1" :total-steps="3" />
-    </div>
-
-    <!-- Bottom Section -->
-    <div
-      class="absolute bottom-[48px] left-1/2 -translate-x-1/2 w-[984px] h-[200px] flex items-center justify-between py-[40px] z-20"
-    >
-      <IdeaCounter :idea-count="ideaCount" />
-    </div>
-  </div>
   </div>
 </template>
 
