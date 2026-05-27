@@ -16,7 +16,7 @@
       <VattenfallHeader title="" />
 
       <div class="px-4 md:px-8 kiosk:px-[48px] pb-6">
-        <PageTitle title="Thanks for sharing" :show-close="true" close-route="/" />
+        <PageTitle title="There’s a way!" :show-close="true" close-route="/" />
 
         <!-- Subtitle -->
         <p class="text-base md:text-lg leading-[1.5] text-black font-vattenfall mt-1">

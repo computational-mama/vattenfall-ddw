@@ -13,12 +13,6 @@
           >
             More parts, higher complexity
           </h3>
-
-          <p
-            class="text-sm md:text-base kiosk:text-[18px] leading-[1.5] text-black font-vattenfall"
-          >
-            Feel like challenging yourself? Choose more than one part.
-          </p>
         </div>
         <!-- Progress Indicator -->
         <div class="mb-2">

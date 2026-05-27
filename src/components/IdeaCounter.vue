@@ -7,9 +7,7 @@
         <p>{{ ideaCount }}</p>
         <p>Ideas</p>
       </div>
-      <p class="text-lg md:text-[24px] leading-[1.5] font-vattenfall font-medium">
-        Scroll to view the ideas shared<br />by participants like you!
-      </p>
+      <p class="text-lg md:text-[24px] leading-[1.5] font-vattenfall font-medium">There’s a way!</p>
     </div>
     <PrimaryButton
       v-if="showButton"
