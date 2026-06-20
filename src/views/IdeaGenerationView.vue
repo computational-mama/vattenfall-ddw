@@ -68,6 +68,32 @@
             </div>
             <!-- Chat Messages Area -->
             <div ref="chatMessagesContainer" class="chat-messages-area flex-1 overflow-y-auto p-2">
+              <!-- One-time parts intro at top of chat -->
+              <div class="mb-4 px-1">
+                <p class="text-xs text-gray-400 font-vattenfall mb-2">Your selected parts:</p>
+                <div class="flex flex-nowrap gap-2 overflow-x-auto pb-1">
+                  <div
+                    v-for="part in partsWithWhyMatters"
+                    :key="part.id"
+                    class="flex-shrink-0 flex items-center gap-2 bg-[#f9fafb] border border-gray-200 rounded-xl px-3 py-2 w-[220px] md:w-[260px]"
+                  >
+                    <img
+                      :src="part.iconSrc"
+                      :alt="part.name"
+                      class="w-10 h-10 object-contain flex-shrink-0"
+                    />
+                    <div class="min-w-0">
+                      <p class="font-bold font-vattenfall text-xs text-[#2071b5] leading-tight truncate">
+                        {{ part.name }}
+                      </p>
+                      <p class="text-[10px] text-gray-500 font-vattenfall leading-tight mt-0.5">
+                        {{ part.whyMatters }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <ChatMessage
                 v-for="(msg, index) in chatMessages"
                 :key="index"
@@ -161,6 +187,7 @@ import PrimaryButton from "../components/PrimaryButton.vue";
 import BackButton from "../components/BackButton.vue";
 import { useSelectedPart } from "../composables/useSelectedPart";
 import { useGooeyAPI, type ChatMessage as ChatMessageType } from "../composables/useGooeyAPI";
+import { partsData } from "../data/partsData";
 import { useInactivityTimeout } from "../composables/useInactivityTimeout";
 import {
   generalLoadingPhrases,
@@ -197,6 +224,14 @@ const selectedParts = computed(() => {
   }
   return parts;
 });
+
+// Enrich selectedParts with whyMatters from partsData CSV
+const partsWithWhyMatters = computed(() =>
+  selectedParts.value.map((part) => {
+    const csvPart = partsData.find((p) => p.id === part.id);
+    return { ...part, whyMatters: csvPart?.whyMatters ?? '' };
+  }),
+);
 
 // Chat state
 const chatMessages = ref<ChatMessageType[]>([]);

@@ -8,6 +8,7 @@ export interface PartData {
   description: string;
   iconSrc: string;
   priority: 1 | 2; // 1 = big (2x height), 2 = small (1x height)
+  whyMatters: string;
   tags?: string[];
 }
 
@@ -62,6 +63,7 @@ function parseCSV(csv: string): PartData[] {
       description: values[2],
       iconSrc: new URL(`../assets/images/${values[3]}`, import.meta.url).href,
       priority: priority,
+      whyMatters: values[5] || '',
     });
   }
 
