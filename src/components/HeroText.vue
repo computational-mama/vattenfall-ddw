@@ -2,7 +2,7 @@
   <div
     class="flex flex-col gap-[10px] items-center text-center font-vattenfall-display font-bold w-full"
   >
-    <div class="flex flex-col gap-6 md:gap-12 kiosk:gap-[64px] items-center text-black w-full">
+    <div class="flex flex-col gap-6 kiosk:gap-[64px] items-center text-black w-full">
       <p class="text-xl md:text-2xl kiosk:text-[28px] leading-[1.3] m-0">What if a</p>
       <div class="text-3xl md:text-5xl kiosk:text-[72px] leading-[1.16] w-full">
         <p class="m-0">Wind turbine's {{ highlightText }}</p>
