@@ -12,50 +12,6 @@
 
       <div class="idea-generation-grid">
         <!-- Part Selection Display -->
-        <div class="part-information">
-          <h3 class="text-sm md:text-2xl font-bold text-black mb-1 md:mb-4 font-vattenfall z-50">
-            Parts selected:
-          </h3>
-
-          <!-- Horizontal scrollable cards for multiple parts -->
-          <div class="overflow-x-auto">
-            <div class="flex flex-nowrap gap-2 md:gap-3">
-              <div
-                v-for="(part, index) in selectedParts"
-                :key="part.id"
-                class="bg-[#f9fafb] rounded-xl flex-shrink-0 w-[120px] md:w-xs border border-gray-200"
-              >
-                <!-- Single column layout for card -->
-                <div class="flex flex-col items-center">
-                  <!-- Part Image/Icon - Top -->
-                  <div
-                    class="h-14 md:h-20 kiosk:w-32 kiosk:h-32 rounded-t-xl flex items-center justify-center p-1 md:p-2 mt-2 md:mt-3 kiosk:mt-4"
-                  >
-                    <img
-                      :src="part.iconSrc"
-                      :alt="part.name"
-                      class="max-w-full max-h-full object-contain"
-                    />
-                  </div>
-
-                  <!-- Part Details - Bottom -->
-                  <div class="p-2 md:py-3 md:px-4">
-                    <h3
-                      class="font-bold font-vattenfall text-xs md:text-sm kiosk:text-xl text-[#2071b5] leading-tight"
-                    >
-                      {{ part.name }}
-                    </h3>
-                    <p
-                      class="hidden kiosk:block text-[#333333] leading-relaxed font-vattenfall font-medium text-xs pb-2 mt-2"
-                    >
-                      {{ part.description }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <!-- Chat Interface -->
         <div class="chat-interface">
@@ -83,7 +39,9 @@
                       class="w-10 h-10 object-contain flex-shrink-0"
                     />
                     <div class="min-w-0">
-                      <p class="font-bold font-vattenfall text-xs text-[#2071b5] leading-tight truncate">
+                      <p
+                        class="font-bold font-vattenfall text-xs text-[#2071b5] leading-tight truncate"
+                      >
                         {{ part.name }}
                       </p>
                       <p class="text-[10px] text-gray-500 font-vattenfall leading-tight mt-0.5">
@@ -229,7 +187,7 @@ const selectedParts = computed(() => {
 const partsWithWhyMatters = computed(() =>
   selectedParts.value.map((part) => {
     const csvPart = partsData.find((p) => p.id === part.id);
-    return { ...part, whyMatters: csvPart?.whyMatters ?? '' };
+    return { ...part, whyMatters: csvPart?.whyMatters ?? "" };
   }),
 );
 
