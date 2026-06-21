@@ -2,22 +2,14 @@
 .idea-generation-grid {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr;
-  gap: 1rem;
-  height: calc(100vh - 230px); /* header ~56px + page title ~80px + footer clearance ~94px */
-  min-height: 250px;
+  grid-template-rows: 1fr;
+  gap: 0;
+  flex: 1;
+  min-height: 0;
   max-width: 1400px;
+  width: 100%;
   margin: 0 auto;
-  grid-template-areas:
-    "part-info"
-    "chat-area";
-}
-
-/* Kiosk: preserve existing value exactly */
-@media (min-width: 1080px) {
-  .idea-generation-grid {
-    height: calc(100vh - 620px);
-  }
+  grid-template-areas: "chat-area";
 }
 
 /* Grid Area Assignments */

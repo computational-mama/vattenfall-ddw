@@ -1,20 +1,21 @@
 <template>
-  <div class="min-h-screen bg-white">
-    <VattenfallHeader title="" />
+  <div class="bg-white flex flex-col overflow-hidden" style="height: 100vh; height: 100dvh">
+    <VattenfallHeader title="" class="flex-shrink-0" />
 
     <!-- Main Content Area with Grid Layout -->
-    <div class="px-3 pb-[100px] md:px-6 md:pb-12 kiosk:px-8 relative">
+    <div class="flex-1 flex flex-col min-h-0 overflow-hidden p-3 md:px-6 kiosk:px-8">
       <PageTitle
         title="Rewind is here to co-create with you"
         :show-close="true"
         close-route="/choose"
+        class="flex-shrink-0"
       />
 
       <div class="idea-generation-grid">
         <!-- Part Selection Display -->
 
         <!-- Chat Interface -->
-        <div class="chat-interface">
+        <div class="chat-interface mt-2">
           <div class="chat-content">
             <div class="bg-[#f6f6f6] flex flex-row p-2 md:p-2 items-center">
               <!-- <div class="bg-black rounded-full w-6 h-6">
@@ -120,8 +121,8 @@
         </div>
       </div>
     </div>
-    <!-- Fixed Footer -->
-    <div class="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-[#e5e5e5] z-30">
+    <!-- Footer -->
+    <div class="bg-white border-t-2 border-[#e5e5e5] flex-shrink-0">
       <div
         class="flex items-center justify-between px-4 py-2 md:px-8 md:py-5 kiosk:px-[48px] kiosk:py-[32px] max-w-[1400px] mx-auto"
       >
