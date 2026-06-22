@@ -45,9 +45,7 @@
                       >
                         {{ part.name }}
                       </p>
-                      <p class="text-[10px] text-gray-500 font-vattenfall leading-tight mt-0.5">
-                        {{ part.whyMatters }}
-                      </p>
+                      <p class="text-[10px] text-gray-500 font-vattenfall leading-tight mt-0.5" v-html="formatWhyMatters(part.whyMatters)"></p>
                     </div>
                   </div>
                 </div>
@@ -191,6 +189,14 @@ const partsWithWhyMatters = computed(() =>
     return { ...part, whyMatters: csvPart?.whyMatters ?? "" };
   }),
 );
+
+function formatWhyMatters(text: string): string {
+  const dashIndex = text.indexOf("—");
+  if (dashIndex === -1) return text;
+  const label = text.slice(0, dashIndex + 1);
+  const rest = text.slice(dashIndex + 1);
+  return `<strong>${label}</strong>${rest}`;
+}
 
 // Chat state
 const chatMessages = ref<ChatMessageType[]>([]);
