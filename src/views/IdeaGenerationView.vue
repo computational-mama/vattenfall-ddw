@@ -21,13 +21,13 @@
               <!-- <div class="bg-black rounded-full w-6 h-6">
                 <img :src="botIcon" alt="Vattenbot Icon" class="text-white" />
               </div> -->
-              <h3 class="text-lg font-vattenfall font-light px-4">Co-create your idea</h3>
+              <h3 class="text-lg font-vattenfall font-light px-4">Let's imagine together</h3>
             </div>
             <!-- Chat Messages Area -->
             <div ref="chatMessagesContainer" class="chat-messages-area flex-1 overflow-y-auto p-2">
               <!-- One-time parts intro at top of chat -->
               <div class="mb-4 px-1">
-                <p class="text-xs text-gray-400 font-vattenfall mb-2">Your selected parts:</p>
+                <p class="text-md text-[#2071b5] font-vattenfall mb-2">Why it matters?</p>
                 <div class="flex flex-nowrap gap-2 overflow-x-auto pb-1">
                   <div
                     v-for="part in partsWithWhyMatters"
